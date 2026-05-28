@@ -25,7 +25,9 @@ function readDevCerts() {
 export default defineConfig({
   plugins: [react()],
   define: {
-    __APP_VERSION__: JSON.stringify(pkg.version),
+    // Build-time version: the pipeline sets ADDIN_VERSION (e.g. 1.0.<rev>.0); locally it
+    // falls back to package.json so dev builds still show a sensible version.
+    __APP_VERSION__: JSON.stringify(process.env.ADDIN_VERSION || pkg.version),
   },
   resolve: {
     alias: {

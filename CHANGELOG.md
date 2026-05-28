@@ -9,9 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Version in the footer** — the app version is read from `package.json` and injected at
-  build time via Vite `define` (`__APP_VERSION__`), shown after the footer tagline (e.g.
-  `· v0.1.0-alpha.1`). Single source of truth: bump `package.json` and the footer follows.
+- **Automatic build-time versioning** — the Azure DevOps pipeline derives a monotonic
+  manifest version `1.0.<rev>.0` from a build counter and injects it into both the manifest
+  `<Version>` and the footer (`ADDIN_VERSION` env → `__APP_VERSION__`). Every deploy is
+  guaranteed a higher version, which is required for M365 Admin Center updates — no manual
+  bumping, no per-commit churn. `make-prod-manifest.mjs` validates the 4-part format and
+  overrides `<Version>`. Local dev builds fall back to the `package.json` version.
+- **Version in the footer** — the app version is injected at build time via Vite `define`
+  (`__APP_VERSION__`), shown after the footer tagline (e.g. `· v1.0.42.0` from the pipeline,
+  or the `package.json` version locally).
 - **Complete i18n coverage** — every locale bundle now has all 66 keys (verified parity
   against en-US). The recently added keys (`preview.page`, `status.clipboardSuccess`,
   `status.saved`, `error.clipboardBlocked`, `footer.privacy`) are now translated in all 11

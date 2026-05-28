@@ -40,7 +40,23 @@ if (!src.includes(DEV_BASE)) {
   process.exit(1);
 }
 
-const out = src.split(DEV_BASE).join(baseUrl);
+let out = src.split(DEV_BASE).join(baseUrl);
+
+// Optional: override the manifest <Version> (Office requires a 4-part numeric version).
+// The pipeline sets ADDIN_VERSION to a monotonic build version (e.g. 1.0.<rev>.0).
+const version = process.env.ADDIN_VERSION;
+if (version) {
+  if (!/^\d+\.\d+\.\d+\.\d+$/.test(version)) {
+    console.error(
+      `Error: ADDIN_VERSION must be a 4-part numeric version (x.x.x.x), got "${version}".`
+    );
+    process.exit(1);
+  }
+  out = out.replace(/<Version>[^<]+<\/Version>/, `<Version>${version}</Version>`);
+}
+
 mkdirSync(dirname(outFile), { recursive: true });
 writeFileSync(outFile, out);
-console.log(`Wrote ${outFile} (base: ${baseUrl})`);
+console.log(
+  `Wrote ${outFile} (base: ${baseUrl}${version ? `, version: ${version}` : ''})`
+);

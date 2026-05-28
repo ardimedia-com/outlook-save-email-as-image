@@ -21,6 +21,10 @@ variables:
   prodBaseUrl: 'https://outlook-image.ardimedia.com'
   prodDeployPath: 'C:\inetpub\wwwroot\ardimedia.com.outlook-image'
   nodeVersion: '20.x'
+  # Monotonic build revision (increments on every pipeline run). Office manifest version
+  # segments max out at 65535, so 1.0.<rev>.0 is safe for tens of thousands of builds.
+  revision: $[counter('addin-rev', 1)]
+  addinVersion: '1.0.$(revision).0'
 
 stages:
   - stage: Build
@@ -38,9 +42,13 @@ stages:
           - script: npm ci
             displayName: npm ci
           - script: npm run build
-            displayName: vite build
+            displayName: vite build ($(addinVersion))
+            env:
+              ADDIN_VERSION: $(addinVersion)
           - script: node scripts/make-prod-manifest.mjs "$(prodBaseUrl)" "manifests/manifest.prod.xml"
-            displayName: Generate production manifest
+            displayName: Generate production manifest ($(addinVersion))
+            env:
+              ADDIN_VERSION: $(addinVersion)
           - publish: dist
             artifact: site
             displayName: Publish site artifact
