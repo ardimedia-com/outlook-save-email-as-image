@@ -1,5 +1,10 @@
 {
   "_meta.review": "Auto-translated — needs review by native speaker",
+  "preview.page": "Page {n}",
+  "status.clipboardSuccess": "Image copiée dans le presse-papiers",
+  "status.saved": "Image enregistrée",
+  "error.clipboardBlocked": "Votre navigateur a bloqué l'accès au presse-papiers pour ce complément. C'est une restriction connue d'Outlook sur le web — utilisez Enregistrer, ou l'application de bureau Outlook où la copie fonctionne.",
+  "footer.privacy": "Confidentialité",
   "app.title": "Enregistrer l'e-mail comme image",
   "app.subtitle": "Exporter ce message en PNG ou JPG",
 

@@ -1,5 +1,10 @@
 {
   "_meta.review": "Auto-translated — needs review by native speaker",
+  "preview.page": "ページ {n}",
+  "status.clipboardSuccess": "画像をクリップボードにコピーしました",
+  "status.saved": "画像を保存しました",
+  "error.clipboardBlocked": "ブラウザーがこのアドインのクリップボードアクセスをブロックしました。これは Outlook on the web の既知の制限です。代わりに保存を使用するか、コピーが機能する Outlook デスクトップアプリをお試しください。",
+  "footer.privacy": "プライバシー",
   "app.title": "メールを画像として保存",
   "app.subtitle": "このメッセージを PNG または JPG としてエクスポート",
 

@@ -1,5 +1,10 @@
 {
   "_meta.review": "Auto-translated — needs review by native speaker",
+  "preview.page": "Página {n}",
+  "status.clipboardSuccess": "Imagen copiada al portapapeles",
+  "status.saved": "Imagen guardada",
+  "error.clipboardBlocked": "Tu navegador bloqueó el acceso al portapapeles para este complemento. Es una restricción conocida de Outlook en la web: usa Guardar o la aplicación de escritorio de Outlook, donde copiar funciona.",
+  "footer.privacy": "Privacidad",
   "app.title": "Guardar correo como imagen",
   "app.subtitle": "Exportar este mensaje como PNG o JPG",
 

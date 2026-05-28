@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Complete i18n coverage** — every locale bundle now has all 66 keys (verified parity
+  against en-US). The recently added keys (`preview.page`, `status.clipboardSuccess`,
+  `status.saved`, `error.clipboardBlocked`, `footer.privacy`) are now translated in all 11
+  locales instead of falling back to English. Non-de/en bundles remain `_meta.review`-flagged
+  for native-speaker review.
 - **Pagination (auto-split)** — when "Pagination → Auto-split" is selected, a tall render is
   sliced into A4-proportioned pages with a smart page-break (each cut snaps up to the nearest
   all-background row so content isn't cut mid-line). Pages show as tabs in the preview;

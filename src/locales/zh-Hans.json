@@ -1,5 +1,10 @@
 {
   "_meta.review": "Auto-translated — needs review by native speaker",
+  "preview.page": "第 {n} 页",
+  "status.clipboardSuccess": "图像已复制到剪贴板",
+  "status.saved": "图像已保存",
+  "error.clipboardBlocked": "您的浏览器阻止了此加载项的剪贴板访问。这是 Outlook 网页版的已知限制——请改用“保存”，或使用可正常复制的 Outlook 桌面应用。",
+  "footer.privacy": "隐私",
   "app.title": "将邮件另存为图像",
   "app.subtitle": "将此邮件导出为 PNG 或 JPG",
 
