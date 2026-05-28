@@ -61,7 +61,7 @@ export function PreviewPane({
               <TabsList>
                 {pages!.map((_, i) => (
                   <TabsTrigger key={i} value={String(i)}>
-                    {i18n.t('field.pagination')} {i + 1}
+                    {i18n.t('preview.page', { n: i + 1 })}
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -123,7 +123,11 @@ export function PreviewPane({
           {currentPage && urls[activeIndex] && (
             <img
               src={urls[activeIndex]}
-              alt="Preview"
+              alt={
+                pages && pages.length > 1
+                  ? i18n.t('preview.page', { n: activeIndex + 1 })
+                  : i18n.t('section.preview')
+              }
               className={cn(
                 'h-auto rounded shadow-soft-lg transition-opacity',
                 isRendering && 'opacity-60'

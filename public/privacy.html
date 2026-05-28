@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+    <title>Privacy Policy — Save Email as Image</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f8fafc;
+        --card: #ffffff;
+        --text: #0f172a;
+        --muted: #475569;
+        --border: #e2e8f0;
+        --brand: #4f46e5;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0f172a;
+          --card: #1e293b;
+          --text: #e2e8f0;
+          --muted: #94a3b8;
+          --border: #334155;
+          --brand: #818cf8;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+        line-height: 1.6;
+      }
+      .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; }
+      header { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+      .logo {
+        width: 44px; height: 44px; border-radius: 10px;
+        background: linear-gradient(135deg, #6366f1, #4338ca);
+        display: flex; align-items: center; justify-content: center;
+        color: #fff; font-weight: 700; font-size: 22px;
+      }
+      h1 { font-size: 1.6rem; margin: 0; }
+      .sub { color: var(--muted); margin: 2px 0 0; font-size: 0.95rem; }
+      .card {
+        background: var(--card); border: 1px solid var(--border);
+        border-radius: 14px; padding: 28px 28px; margin-top: 28px;
+      }
+      h2 { font-size: 1.15rem; margin: 28px 0 8px; }
+      h2:first-of-type { margin-top: 0; }
+      p, li { color: var(--text); }
+      .muted { color: var(--muted); }
+      ul { padding-left: 20px; }
+      li { margin: 4px 0; }
+      .pill {
+        display: inline-block; background: rgba(99,102,241,0.12); color: var(--brand);
+        border-radius: 999px; padding: 2px 10px; font-size: 0.8rem; font-weight: 600;
+      }
+      a { color: var(--brand); }
+      footer { margin-top: 32px; color: var(--muted); font-size: 0.85rem; }
+      hr { border: 0; border-top: 1px solid var(--border); margin: 24px 0; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="logo">A</div>
+        <div>
+          <h1>Privacy Policy</h1>
+          <p class="sub">Save Email as Image — an Outlook add-in by Ardimedia</p>
+        </div>
+      </header>
+
+      <p class="muted">Last updated: 28 May 2026</p>
+
+      <div class="card">
+        <p><span class="pill">In short</span></p>
+        <p>
+          <strong>This add-in processes everything locally in your browser and does not
+          collect, store, or transmit any of your data.</strong> Your email content never
+          leaves your device, and our servers receive none of it.
+        </p>
+
+        <h2>What the add-in does</h2>
+        <p>
+          Save Email as Image renders the email you currently have open in Outlook into a
+          PNG or JPG image so you can save it or copy it to your clipboard. All rendering
+          happens inside the add-in task pane (a sandboxed browser frame) on your own
+          device.
+        </p>
+
+        <h2>Data we access</h2>
+        <ul>
+          <li>
+            The content and metadata (sender, recipients, subject, date) of the
+            <em>currently open</em> message — read only, and only while you use the add-in.
+            This requires the minimal <code>ReadItem</code> permission.
+          </li>
+          <li>
+            Inline images embedded in that message, to include them in the exported image.
+          </li>
+        </ul>
+
+        <h2>Data we collect</h2>
+        <p><strong>None.</strong> Specifically:</p>
+        <ul>
+          <li>No email content, addresses, subjects, or attachments are sent anywhere.</li>
+          <li>No analytics, telemetry, tracking, cookies, or advertising identifiers.</li>
+          <li>No accounts, no profiles, no usage logs on our side.</li>
+        </ul>
+
+        <h2>Where processing happens</h2>
+        <p>
+          Image generation runs entirely client-side using your browser's canvas. The web
+          server that hosts the add-in serves only static, public files (HTML, JavaScript,
+          CSS, icons, fonts). It has no backend and receives no message data.
+        </p>
+
+        <h2>External images</h2>
+        <p>
+          By default, external (remote) images in an email are blocked and shown as
+          placeholders — the same protective behaviour as Outlook. If you explicitly choose
+          “load external images for this export”, your browser fetches those images directly
+          from their third-party hosts (which may record the request, as with any remote
+          image). This is your choice and is off by default.
+        </p>
+
+        <h2>Fonts</h2>
+        <p>
+          The interface font is bundled with the add-in and served from our own host — no
+          third-party font CDN is used, so no font request is made to external providers.
+        </p>
+
+        <h2>Third parties</h2>
+        <p>
+          The add-in loads Microsoft's Office.js library from Microsoft's official CDN, as
+          required for all Office add-ins. We do not share any data with third parties,
+          because we do not collect any.
+        </p>
+
+        <h2>Open source</h2>
+        <p>
+          The add-in is open source under the MIT license. You can review exactly what it
+          does at
+          <a href="https://github.com/ardimedia-com/outlook-save-email-as-image"
+             target="_blank" rel="noopener noreferrer">github.com/ardimedia-com/outlook-save-email-as-image</a>.
+        </p>
+
+        <h2>Changes to this policy</h2>
+        <p>
+          If this policy changes, the “Last updated” date above will change and the new
+          version will be published at this URL.
+        </p>
+
+        <h2>Contact</h2>
+        <p>
+          Questions or concerns? Open an issue on
+          <a href="https://github.com/ardimedia-com/outlook-save-email-as-image/issues"
+             target="_blank" rel="noopener noreferrer">GitHub</a>
+          or contact Ardimedia at
+          <a href="mailto:info@ardimedia.com">info@ardimedia.com</a>.
+        </p>
+      </div>
+
+      <footer>
+        Save Email as Image · Open-Source by Ardimedia · MIT
+      </footer>
+    </div>
+  </body>
+</html>

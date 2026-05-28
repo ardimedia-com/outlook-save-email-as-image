@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Pagination (auto-split)** — when "Pagination → Auto-split" is selected, a tall render is
+  sliced into A4-proportioned pages with a smart page-break (each cut snaps up to the nearest
+  all-background row so content isn't cut mid-line). Pages show as tabs in the preview;
+  Save downloads all pages (`_pNN`), clipboard copies the active page.
+- **Privacy policy page** (`public/privacy.html`) served at `/privacy.html`, linked from the
+  task-pane footer — states that all processing is local and no data is collected or
+  transmitted. Needed for the AppSource submission later.
+- **Accessibility pass** — document `lang` tracks the resolved locale; error toasts use
+  `role="alert"`/`aria-live="assertive"`; the resize divider is keyboard-operable
+  (Tab-focus + Arrow keys, with `aria-valuenow/min/max`); preview image alt text is
+  localized and page-aware.
+
+### Added (hosting & infra)
+
 - **Self-hosted Inter font** via `@fontsource-variable/inter` (bundled by Vite) — removed the
   Google Fonts CDN dependency. No third-party font request, better privacy, and it allows a
   stricter Content-Security-Policy.

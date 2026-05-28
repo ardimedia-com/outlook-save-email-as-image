@@ -164,6 +164,79 @@ function autoCropCanvas(
   return out;
 }
 
+/**
+ * Slice a tall canvas into page-height chunks for pagination. Each cut is nudged upward
+ * to the nearest all-background row within a search window (smart page-break) so content
+ * isn't sliced through the middle of a line. Falls back to hard cuts if pixels can't be
+ * read (tainted canvas) or no clean break is found.
+ */
+export function sliceCanvas(
+  canvas: HTMLCanvasElement,
+  bg: 'light' | 'dark',
+  maxPageHeight: number
+): HTMLCanvasElement[] {
+  const { width, height } = canvas;
+  if (height <= maxPageHeight || maxPageHeight < 200) return [canvas];
+
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  if (!ctx) return [canvas];
+
+  let data: Uint8ClampedArray | null = null;
+  try {
+    data = ctx.getImageData(0, 0, width, height).data;
+  } catch {
+    data = null; // tainted — fall back to hard cuts
+  }
+
+  const [br, bgG, bb] = BG_RGB[bg];
+  const tol = 14;
+  const rowIsBackground = (y: number): boolean => {
+    if (!data) return false;
+    const base = y * width * 4;
+    for (let x = 0; x < width; x += 3) {
+      const i = base + x * 4;
+      if (
+        Math.abs(data[i] - br) > tol ||
+        Math.abs(data[i + 1] - bgG) > tol ||
+        Math.abs(data[i + 2] - bb) > tol
+      ) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const fill = bg === 'dark' ? '#0f172a' : '#ffffff';
+  const searchWindow = Math.min(180, Math.floor(maxPageHeight * 0.25));
+  const pages: HTMLCanvasElement[] = [];
+  let top = 0;
+
+  while (top < height) {
+    let cut = Math.min(top + maxPageHeight, height);
+    if (cut < height) {
+      for (let y = cut; y > cut - searchWindow && y > top + 1; y--) {
+        if (rowIsBackground(y)) {
+          cut = y;
+          break;
+        }
+      }
+    }
+    const pageHeight = cut - top;
+    const page = document.createElement('canvas');
+    page.width = width;
+    page.height = pageHeight;
+    const pctx = page.getContext('2d');
+    if (!pctx) break;
+    pctx.fillStyle = fill;
+    pctx.fillRect(0, 0, width, pageHeight);
+    pctx.drawImage(canvas, 0, top, width, pageHeight, 0, 0, width, pageHeight);
+    pages.push(page);
+    top = cut;
+  }
+
+  return pages.length > 0 ? pages : [canvas];
+}
+
 function buildContainer(opts: RenderOptions, bg: 'light' | 'dark'): HTMLDivElement {
   const container = document.createElement('div');
   const isDark = bg === 'dark';

@@ -5,6 +5,7 @@
   "section.preview": "Preview",
   "section.settings": "Settings",
   "section.actions": "Actions",
+  "preview.page": "Page {n}",
 
   "field.format": "Format",
   "field.format.png": "PNG",
@@ -65,6 +66,7 @@
   "footer.tagline": "Save Email as Image · Open-Source by Ardimedia · MIT",
   "footer.review": "Rate on Office Store",
   "footer.feedback": "Feedback / Issues on GitHub",
+  "footer.privacy": "Privacy",
 
   "type.newsletter-fixed": "Newsletter (fixed width)",
   "type.word-outlook": "Word / Outlook",

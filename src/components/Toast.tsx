@@ -33,7 +33,8 @@ export function Toast({ toast, onDismiss, autoDismissMs }: ToastProps) {
   return (
     <div className="pointer-events-none absolute inset-x-0 bottom-2 z-50 flex justify-center px-4">
       <div
-        role="status"
+        role={isError ? 'alert' : 'status'}
+        aria-live={isError ? 'assertive' : 'polite'}
         className={cn(
           'pointer-events-auto flex max-w-md items-start gap-2.5 rounded-xl px-4 py-3 text-sm shadow-soft-lg ring-1 backdrop-blur animate-slide-up',
           isError

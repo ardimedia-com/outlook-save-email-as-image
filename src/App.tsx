@@ -30,6 +30,7 @@ import {
   downloadBlob,
   renderToCanvas,
   resolveBackground,
+  sliceCanvas,
 } from './lib/imageExporter';
 import { buildFilename } from './lib/filename';
 import { DEFAULT_SETTINGS, type Settings } from './types/settings';
@@ -103,6 +104,11 @@ export function App() {
     }
   }, []);
 
+  // Keep the document language in sync with the resolved UI locale (a11y / screen readers).
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
+
   useEffect(() => {
     let alive = true;
     Office.onReady(() => {
@@ -171,20 +177,29 @@ export function App() {
         });
         if (token !== renderTokenRef.current) return;
 
-        const blob = await canvasToBlob(
-          result.canvas,
-          debouncedSettings.format,
-          debouncedSettings.jpgQuality / 100
-        );
+        // Auto-split paginates the tall canvas into A4-proportioned pages with smart
+        // page-breaks; single mode keeps one image.
+        const canvases =
+          debouncedSettings.pagination === 'auto-split'
+            ? sliceCanvas(
+                result.canvas,
+                result.background,
+                Math.round(result.width * 1.414)
+              )
+            : [result.canvas];
+
+        const renderedPages: PreviewPage[] = [];
+        for (const c of canvases) {
+          const blob = await canvasToBlob(
+            c,
+            debouncedSettings.format,
+            debouncedSettings.jpgQuality / 100
+          );
+          renderedPages.push({ blob, width: c.width, height: c.height });
+        }
         if (token !== renderTokenRef.current) return;
 
-        setPages([
-          {
-            blob,
-            width: result.width,
-            height: result.height,
-          },
-        ]);
+        setPages(renderedPages);
         setImagesBlocked(sanitized.externalImagesBlocked);
         setActivePage(0);
         setError(null);
@@ -397,10 +412,24 @@ export function App() {
           <div
             role="separator"
             aria-orientation="horizontal"
+            aria-label={i18n.t('section.settings')}
+            aria-valuenow={Math.round(settingsPx)}
+            aria-valuemin={140}
+            aria-valuemax={Math.round(window.innerHeight * 0.7)}
+            tabIndex={0}
             onPointerDown={onDividerPointerDown}
             onPointerMove={onDividerPointerMove}
             onPointerUp={onDividerPointerUp}
-            className="group flex h-2.5 shrink-0 cursor-row-resize items-center justify-center border-t border-slate-200/70 bg-slate-100/70 transition-colors hover:bg-brand-100 dark:border-slate-800/60 dark:bg-slate-900/50 dark:hover:bg-brand-900/40"
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                setSettingsPx((h) => Math.min(window.innerHeight * 0.7, h + 24));
+              } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                setSettingsPx((h) => Math.max(140, h - 24));
+              }
+            }}
+            className="group flex h-2.5 shrink-0 cursor-row-resize items-center justify-center border-t border-slate-200/70 bg-slate-100/70 transition-colors hover:bg-brand-100 focus-visible:bg-brand-100 focus-visible:outline-none dark:border-slate-800/60 dark:bg-slate-900/50 dark:hover:bg-brand-900/40 dark:focus-visible:bg-brand-900/40"
             title="Drag to resize"
           >
             <span className="h-1 w-10 rounded-full bg-slate-300 transition-colors group-hover:bg-brand-400 dark:bg-slate-600" />
