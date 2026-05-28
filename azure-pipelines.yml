@@ -1,0 +1,78 @@
+# Build + deploy pipeline for outlook-save-email-as-image.
+#
+#   Build stage  : Microsoft-hosted agent — npm ci, vite build, generate the prod manifest,
+#                  publish "site" (static app) + "manifests" artifacts.
+#   Deploy stage : runs on the EXISTING environment APP-SVRWWW05 (VM resource = svrwww05),
+#                  cleans the IIS target and copies the static site. Fully YAML-native.
+#
+# The environment APP-SVRWWW05 already exists in Azure DevOps (Pipelines → Environments) with a
+# VM resource / deployment agent on svrwww05, so no agent pool or deployment group is needed.
+# Add approvals/checks on that environment in the UI if a manual gate is wanted.
+#
+# After a successful deploy the app is live at https://outlook-image.ardimedia.com/src/taskpane.html
+# Upload manifests/manifest.prod.xml to the M365 Admin Center (Integrated apps) to register it.
+
+trigger:
+  branches:
+    include:
+      - main
+
+variables:
+  prodBaseUrl: 'https://outlook-image.ardimedia.com'
+  prodDeployPath: 'C:\inetpub\wwwroot\ardimedia.com.outlook-image'
+  nodeVersion: '20.x'
+
+stages:
+  - stage: Build
+    displayName: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    jobs:
+      - job: build
+        displayName: Build static site + manifest
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: $(nodeVersion)
+            displayName: Use Node $(nodeVersion)
+          - script: npm ci
+            displayName: npm ci
+          - script: npm run build
+            displayName: vite build
+          - script: node scripts/make-prod-manifest.mjs "$(prodBaseUrl)" "manifests/manifest.prod.xml"
+            displayName: Generate production manifest
+          - publish: dist
+            artifact: site
+            displayName: Publish site artifact
+          - publish: manifests
+            artifact: manifests
+            displayName: Publish manifest (upload to M365 Admin Center)
+
+  - stage: Deploy
+    displayName: Deploy → svrwww05
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - deployment: deployProd
+        displayName: Deploy static site to IIS
+        environment:
+          name: APP-SVRWWW05
+          resourceType: VirtualMachine
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                # Artifacts auto-download to $(Pipeline.Workspace) on the VM resource agent.
+                - powershell: |
+                    $ErrorActionPreference = 'Stop'
+                    $target = '$(prodDeployPath)'
+                    Write-Host "Deploying to $target on $env:COMPUTERNAME"
+                    if (Test-Path $target) {
+                      Get-ChildItem -Path $target -Force | Remove-Item -Recurse -Force
+                    } else {
+                      New-Item -ItemType Directory -Force -Path $target | Out-Null
+                    }
+                    Copy-Item -Path "$(Pipeline.Workspace)\site\*" -Destination $target -Recurse -Force
+                    Copy-Item -Path "$(Pipeline.Workspace)\manifests\manifest.prod.xml" -Destination (Join-Path $target 'manifest.xml') -Force
+                    Write-Host "Deployed $(Get-ChildItem $target -Recurse -File | Measure-Object | Select-Object -ExpandProperty Count) files."
+                  displayName: Clean target + copy static site

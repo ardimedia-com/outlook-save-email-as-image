@@ -9,6 +9,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Self-hosted Inter font** via `@fontsource-variable/inter` (bundled by Vite) — removed the
+  Google Fonts CDN dependency. No third-party font request, better privacy, and it allows a
+  stricter Content-Security-Policy.
+- **IIS hosting config** (`public/web.config`) — correct MIME types, long-cache for hashed
+  `/assets`, no-cache for HTML/manifest, a strict CSP tuned for client-side email rendering
+  (self + Microsoft office.js; inline styles; data:/https: images; self fonts) and security
+  headers. Deliberately does **not** set X-Frame-Options/restrictive frame-ancestors, since
+  Outlook embeds the taskpane in an iframe.
+- **Environment-specific manifest generator** (`scripts/make-prod-manifest.mjs`, `npm run
+  make-manifest`) — swaps the dev base URL for the target host so app assets stay
+  environment-neutral and only the manifest carries absolute URLs.
+- **Azure DevOps pipeline** (`azure-pipelines.yml`) — multi-stage, fully YAML-native: build
+  on a Microsoft-hosted agent (npm ci, vite build, generate the prod manifest, publish site +
+  manifest artifacts), then a deployment job on the existing `APP-SVRWWW05` environment (VM
+  resource) that cleans the IIS target and copies the static site. No agent pool or deployment
+  group needed.
+
+### Security
+
+- All image processing is client-side; the hosting server serves only static, public files —
+  email content never reaches the server. Dependabot + secret scanning + push protection are
+  enabled on the repository.
+
+### Added
+
 - **Auto-crop.** Uniform background margins are now trimmed from the rendered image. The
   crop scans inward from each edge for the first non-background pixel (tolerance-based,
   sampled every 2nd pixel for speed) and crops to that bounding box plus 16 px padding.
