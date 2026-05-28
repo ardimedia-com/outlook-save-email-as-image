@@ -5,6 +5,10 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
+const pkg = JSON.parse(
+  fs.readFileSync(resolve(__dirname, 'package.json'), 'utf8')
+) as { version: string };
+
 function readDevCerts() {
   const certDir = path.join(os.homedir(), '.office-addin-dev-certs');
   const keyPath = path.join(certDir, 'localhost.key');
@@ -20,6 +24,9 @@ function readDevCerts() {
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),

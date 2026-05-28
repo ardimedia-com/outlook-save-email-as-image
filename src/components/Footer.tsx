@@ -10,7 +10,10 @@ export function Footer({ i18n }: { i18n: I18n }) {
   return (
     <footer className="border-t border-slate-200/70 bg-slate-100/80 px-4 py-3 text-[11px] text-slate-500 backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/80 dark:text-slate-400">
       <div className="flex flex-col items-center justify-between gap-2 sm:flex-row">
-        <span className="opacity-80">{i18n.t('footer.tagline')}</span>
+        <span className="opacity-80">
+          {i18n.t('footer.tagline')}
+          <span className="opacity-70"> · v{__APP_VERSION__}</span>
+        </span>
         <div className="flex items-center gap-4">
           <a
             href={STORE_URL}

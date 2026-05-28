@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Version in the footer** — the app version is read from `package.json` and injected at
+  build time via Vite `define` (`__APP_VERSION__`), shown after the footer tagline (e.g.
+  `· v0.1.0-alpha.1`). Single source of truth: bump `package.json` and the footer follows.
 - **Complete i18n coverage** — every locale bundle now has all 66 keys (verified parity
   against en-US). The recently added keys (`preview.page`, `status.clipboardSuccess`,
   `status.saved`, `error.clipboardBlocked`, `footer.privacy`) are now translated in all 11
