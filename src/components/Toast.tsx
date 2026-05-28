@@ -7,6 +7,8 @@ export type ToastKind = 'success' | 'error';
 export interface ToastData {
   kind: ToastKind;
   message: string;
+  /** Per-toast auto-dismiss override in ms. Falls back to the kind-based default. */
+  durationMs?: number;
 }
 
 interface ToastProps {
@@ -19,7 +21,8 @@ interface ToastProps {
 export function Toast({ toast, onDismiss, autoDismissMs }: ToastProps) {
   useEffect(() => {
     if (!toast) return;
-    const delay = autoDismissMs ?? (toast.kind === 'error' ? 7000 : 3000);
+    const delay =
+      toast.durationMs ?? autoDismissMs ?? (toast.kind === 'error' ? 7000 : 3000);
     const id = window.setTimeout(onDismiss, delay);
     return () => window.clearTimeout(id);
   }, [toast, autoDismissMs, onDismiss]);

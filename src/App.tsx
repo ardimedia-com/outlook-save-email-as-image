@@ -258,7 +258,7 @@ export function App() {
       setToast({ kind: 'success', message: i18n.t('status.clipboardSuccess') });
     } catch (e: unknown) {
       const code = e instanceof Error ? e.message : 'CLIPBOARD_UNAVAILABLE';
-      setToast({ kind: 'error', message: clipboardErrorMessage(code) });
+      setToast({ kind: 'error', message: clipboardErrorMessage(code), durationMs: 15000 });
     }
   }, [pages, activePage, i18n, clipboardErrorMessage]);
 
