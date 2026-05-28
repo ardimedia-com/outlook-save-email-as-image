@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    font-family:
+      Inter,
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      Segoe UI,
+      Roboto,
+      sans-serif;
+    font-feature-settings:
+      'cv11',
+      'ss01';
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Subtle focus rings (modern, indigo-tinted) */
+  *:focus-visible {
+    outline: 2px solid theme('colors.brand.500');
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Custom scrollbar (modern, slim) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: theme('colors.slate.300');
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.slate.400');
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: theme('colors.slate.700');
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.slate.600');
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-slate-200/70 bg-white/80 shadow-soft-sm backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/70;
+  }
+
+  .label-text {
+    @apply text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400;
+  }
+
+  .field-group {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .divider {
+    @apply h-px w-full bg-slate-200/70 dark:bg-slate-800/70;
+  }
+
+  .glass-bar {
+    @apply border-t border-slate-200/70 bg-white/70 backdrop-blur-md dark:border-slate-800/60 dark:bg-slate-900/70;
+  }
+}
+
+/* Preview-area checkerboard for transparent areas */
+.preview-checkerboard {
+  background-image:
+    linear-gradient(45deg, theme('colors.slate.200') 25%, transparent 25%),
+    linear-gradient(-45deg, theme('colors.slate.200') 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, theme('colors.slate.200') 75%),
+    linear-gradient(-45deg, transparent 75%, theme('colors.slate.200') 75%);
+  background-size: 16px 16px;
+  background-position:
+    0 0,
+    0 8px,
+    8px -8px,
+    -8px 0;
+}
+.dark .preview-checkerboard {
+  background-image:
+    linear-gradient(45deg, theme('colors.slate.800') 25%, transparent 25%),
+    linear-gradient(-45deg, theme('colors.slate.800') 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, theme('colors.slate.800') 75%),
+    linear-gradient(-45deg, transparent 75%, theme('colors.slate.800') 75%);
+}

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+           xsi:type="MailApp">
+
+  <Id>0e095528-6b65-45ad-b8cc-00159892a04c</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Ardimedia</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+
+  <DisplayName DefaultValue="Save Email as Image">
+    <Override Locale="de" Value="E-Mail als Bild speichern" />
+    <Override Locale="fr" Value="Enregistrer l'e-mail comme image" />
+    <Override Locale="es" Value="Guardar correo como imagen" />
+    <Override Locale="pt-BR" Value="Salvar e-mail como imagem" />
+    <Override Locale="pt-PT" Value="Guardar e-mail como imagem" />
+    <Override Locale="nl" Value="E-mail opslaan als afbeelding" />
+    <Override Locale="pl" Value="Zapisz e-mail jako obraz" />
+    <Override Locale="ja" Value="メールを画像として保存" />
+    <Override Locale="zh-Hans" Value="将邮件另存为图像" />
+  </DisplayName>
+
+  <Description DefaultValue="Export the currently opened email as a PNG or JPG image, with optional Outlook-style forwarding header.">
+    <Override Locale="de" Value="Exportiert die aktuell geöffnete E-Mail als PNG- oder JPG-Bild, optional mit Outlook-Weiterleitungs-Header." />
+  </Description>
+
+  <IconUrl DefaultValue="https://localhost:3000/icons/icon-64.png" />
+  <HighResolutionIconUrl DefaultValue="https://localhost:3000/icons/icon-128.png" />
+  <SupportUrl DefaultValue="https://github.com/ardimedia-com/outlook-save-email-as-image" />
+
+  <AppDomains>
+    <AppDomain>https://localhost:3000</AppDomain>
+  </AppDomains>
+
+  <Hosts>
+    <Host Name="Mailbox" />
+  </Hosts>
+
+  <Requirements>
+    <Sets>
+      <Set Name="Mailbox" MinVersion="1.5" />
+    </Sets>
+  </Requirements>
+
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://localhost:3000/src/taskpane.html" />
+        <RequestedHeight>250</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+
+  <Permissions>ReadItem</Permissions>
+
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read" />
+  </Rule>
+
+  <DisableEntityHighlighting>false</DisableEntityHighlighting>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Requirements>
+      <bt:Sets DefaultMinVersion="1.5">
+        <bt:Set Name="Mailbox" MinVersion="1.5" />
+      </bt:Sets>
+    </Requirements>
+
+    <Hosts>
+      <Host xsi:type="MailHost">
+        <DesktopFormFactor>
+          <FunctionFile resid="Commands.Url" />
+
+          <ExtensionPoint xsi:type="MessageReadCommandSurface">
+            <OfficeTab id="TabDefault">
+              <Group id="msgReadGroup">
+                <Label resid="GroupLabel" />
+                <Control xsi:type="Button" id="msgReadOpenPaneButton">
+                  <Label resid="TaskpaneButton.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButton.Label" />
+                    <Description resid="TaskpaneButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16" />
+                    <bt:Image size="32" resid="Icon.32x32" />
+                    <bt:Image size="80" resid="Icon.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="Taskpane.Url" />
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16x16" DefaultValue="https://localhost:3000/icons/icon-16.png" />
+        <bt:Image id="Icon.32x32" DefaultValue="https://localhost:3000/icons/icon-32.png" />
+        <bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/icons/icon-80.png" />
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="Commands.Url" DefaultValue="https://localhost:3000/src/commands.html" />
+        <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000/src/taskpane.html" />
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="GroupLabel" DefaultValue="Image Export">
+          <bt:Override Locale="de" Value="Bild-Export" />
+          <bt:Override Locale="fr" Value="Export image" />
+          <bt:Override Locale="es" Value="Exportar imagen" />
+          <bt:Override Locale="pt-BR" Value="Exportar imagem" />
+          <bt:Override Locale="pt-PT" Value="Exportar imagem" />
+          <bt:Override Locale="nl" Value="Afbeelding exporteren" />
+          <bt:Override Locale="pl" Value="Eksportuj jako obraz" />
+          <bt:Override Locale="ja" Value="画像エクスポート" />
+          <bt:Override Locale="zh-Hans" Value="导出图像" />
+        </bt:String>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Save as Image">
+          <bt:Override Locale="de" Value="Als Bild" />
+          <bt:Override Locale="fr" Value="Enregistrer comme image" />
+          <bt:Override Locale="es" Value="Guardar como imagen" />
+          <bt:Override Locale="pt-BR" Value="Salvar como imagem" />
+          <bt:Override Locale="pt-PT" Value="Guardar como imagem" />
+          <bt:Override Locale="nl" Value="Opslaan als afbeelding" />
+          <bt:Override Locale="pl" Value="Zapisz jako obraz" />
+          <bt:Override Locale="ja" Value="画像として保存" />
+          <bt:Override Locale="zh-Hans" Value="另存为图像" />
+        </bt:String>
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Export this email as a PNG or JPG image with optional forwarding header">
+          <bt:Override Locale="de" Value="Diese E-Mail als PNG- oder JPG-Bild exportieren, optional mit Outlook-Weiterleitungs-Header" />
+          <bt:Override Locale="fr" Value="Exporter cet e-mail comme image PNG ou JPG avec en-tête de transfert optionnel" />
+          <bt:Override Locale="es" Value="Exportar este correo como imagen PNG o JPG con encabezado de reenvío opcional" />
+          <bt:Override Locale="pt-BR" Value="Exportar este e-mail como imagem PNG ou JPG com cabeçalho de encaminhamento opcional" />
+          <bt:Override Locale="pt-PT" Value="Exportar este e-mail como imagem PNG ou JPG com cabeçalho de reencaminhamento opcional" />
+          <bt:Override Locale="nl" Value="Deze e-mail exporteren als PNG- of JPG-afbeelding met optionele doorstuurkopregel" />
+          <bt:Override Locale="pl" Value="Eksportuj tę wiadomość jako obraz PNG lub JPG z opcjonalnym nagłówkiem przekazywania" />
+          <bt:Override Locale="ja" Value="このメールをPNGまたはJPG画像としてエクスポートします（オプションで転送ヘッダー付き）" />
+          <bt:Override Locale="zh-Hans" Value="将此邮件导出为 PNG 或 JPG 图像，可选转发标题" />
+        </bt:String>
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>
