@@ -54,11 +54,10 @@ const OFFICE_LOAD_WATCHDOG_MS = 20000;
 export function App() {
   const { theme, toggle: toggleTheme } = useTheme();
 
-  // Resizable preview height (px) in stacked (narrow) mode. Defaults to ~35% of the pane so a
-  // strip of preview shows on open; the divider grows it (drag up) or collapses it (drag to 0).
-  const [previewPx, setPreviewPx] = useState(() =>
-    Math.round((typeof window !== 'undefined' ? window.innerHeight : 800) * 0.35)
-  );
+  // Settings panel height (px) in stacked (narrow) mode. null = auto: the panel sizes to its
+  // content (no wasted height) and the preview fills the rest. The divider sets an explicit px.
+  const [settingsPx, setSettingsPx] = useState<number | null>(null);
+  const settingsRef = useRef<HTMLElement>(null);
   const dragRef = useRef<{ startY: number; startH: number } | null>(null);
 
   const [locale, setLocale] = useState<SupportedLocale>('en-US');
@@ -343,19 +342,23 @@ export function App() {
 
   const onDividerPointerDown = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
-      dragRef.current = { startY: e.clientY, startH: previewPx };
+      dragRef.current = {
+        startY: e.clientY,
+        startH: settingsRef.current?.offsetHeight ?? 0,
+      };
       e.currentTarget.setPointerCapture(e.pointerId);
     },
-    [previewPx]
+    []
   );
 
   const onDividerPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (!dragRef.current) return;
-    // Dragging up grows the preview from the bottom (shrinking settings); down collapses it.
-    const delta = dragRef.current.startY - e.clientY;
-    const max = window.innerHeight * 0.85;
-    const next = Math.min(max, Math.max(0, dragRef.current.startH + delta));
-    setPreviewPx(next);
+    // The divider sits below the settings panel: drag down grows settings, up shrinks it — the
+    // preview fills the rest, so it grows/shrinks inversely.
+    const delta = e.clientY - dragRef.current.startY;
+    const max = window.innerHeight * 0.9;
+    const next = Math.min(max, Math.max(72, dragRef.current.startH + delta));
+    setSettingsPx(next);
   }, []);
 
   const onDividerPointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
@@ -444,6 +447,11 @@ export function App() {
 
   const settingsBody = (
     <>
+      <div className="sticky top-0 z-10 flex items-center border-b border-slate-200/70 bg-white px-4 py-2 dark:border-slate-800/60 dark:bg-slate-950">
+        <span className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          {i18n.t('section.settings')}
+        </span>
+      </div>
       <SettingsPanel
         i18n={i18n}
         settings={settings}
@@ -451,9 +459,9 @@ export function App() {
         detectedWidth={detection?.detectedWidth ?? null}
       />
       {(info || noteParts.length > 0) && (
-        // Status block pinned to the bottom of the settings column: render stats on top,
-        // advisory notes below, each with its own highlighted background.
-        <div className="mt-auto">
+        // Status block right after the controls (no filler gap): stats on top, advisory notes
+        // below, each with its own highlighted background.
+        <div>
           {info && (
             <div className="border-t border-slate-200/70 bg-slate-100/80 px-4 py-2 text-[11px] text-slate-600 dark:border-slate-800/60 dark:bg-slate-800/40 dark:text-slate-300">
               {info}
@@ -474,33 +482,41 @@ export function App() {
       {/* Single adaptive layout: stacked (settings on top, preview below) by default; two
           columns (settings left, preview right) when the pane itself — not the viewport — is
           wide enough, via a CSS container query (no JS resize listener). While stacked the
-          settings panel fills the pane and the divider pulls the preview up from the bottom
-          (--preview-h, default 0); the wide layout ignores it. */}
+          settings panel sizes to its content and the preview fills the rest; the divider
+          resizes the settings panel (--settings-h, default auto). The wide layout ignores it. */}
       <main
         className="app-layout relative flex min-h-0 flex-1"
-        style={{ '--preview-h': `${previewPx}px` } as React.CSSProperties}
+        style={
+          settingsPx != null
+            ? ({ '--settings-h': `${settingsPx}px` } as React.CSSProperties)
+            : undefined
+        }
       >
-        <section className="app-settings flex min-h-0 flex-col overflow-y-auto">
+        <section
+          ref={settingsRef}
+          className="app-settings flex min-h-0 flex-col overflow-y-auto"
+        >
           {settingsBody}
         </section>
         <div
           role="separator"
           aria-orientation="horizontal"
-          aria-label={i18n.t('section.preview')}
-          aria-valuenow={Math.round(previewPx)}
-          aria-valuemin={0}
-          aria-valuemax={Math.round(window.innerHeight * 0.85)}
+          aria-label={i18n.t('section.settings')}
+          aria-valuenow={settingsPx != null ? Math.round(settingsPx) : undefined}
+          aria-valuemin={72}
+          aria-valuemax={Math.round(window.innerHeight * 0.9)}
           tabIndex={0}
           onPointerDown={onDividerPointerDown}
           onPointerMove={onDividerPointerMove}
           onPointerUp={onDividerPointerUp}
           onKeyDown={(e) => {
-            if (e.key === 'ArrowUp') {
+            const cur = settingsPx ?? settingsRef.current?.offsetHeight ?? 0;
+            if (e.key === 'ArrowDown') {
               e.preventDefault();
-              setPreviewPx((h) => Math.min(window.innerHeight * 0.85, h + 24));
-            } else if (e.key === 'ArrowDown') {
+              setSettingsPx(Math.min(window.innerHeight * 0.9, cur + 24));
+            } else if (e.key === 'ArrowUp') {
               e.preventDefault();
-              setPreviewPx((h) => Math.max(0, h - 24));
+              setSettingsPx(Math.max(72, cur - 24));
             }
           }}
           className="app-divider group flex h-2.5 shrink-0 cursor-row-resize items-center justify-center border-t border-slate-200/70 bg-slate-100/70 transition-colors hover:bg-brand-100 focus-visible:bg-brand-100 focus-visible:outline-hidden dark:border-slate-800/60 dark:bg-slate-900/50 dark:hover:bg-brand-900/40 dark:focus-visible:bg-brand-900/40"
