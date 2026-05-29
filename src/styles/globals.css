@@ -36,6 +36,16 @@
     border-radius: 4px;
   }
 
+  /* Standards-based scrollbar (Firefox + Chromium 121+); the webkit rules below
+     keep older WebView2 / Safari covered. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.slate.300') transparent;
+  }
+  .dark * {
+    scrollbar-color: theme('colors.slate.700') transparent;
+  }
+
   /* Custom scrollbar (modern, slim) */
   ::-webkit-scrollbar {
     width: 8px;
@@ -101,4 +111,16 @@
     linear-gradient(-45deg, theme('colors.slate.800') 25%, transparent 25%),
     linear-gradient(45deg, transparent 75%, theme('colors.slate.800') 75%),
     linear-gradient(-45deg, transparent 75%, theme('colors.slate.800') 75%);
+}
+
+/* Honor reduced-motion: neutralize spinner/fade/slide/shimmer for users who ask for it. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
