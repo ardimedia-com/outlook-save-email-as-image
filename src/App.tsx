@@ -448,9 +448,20 @@ export function App() {
         onChange={handleSettingChange}
         detectedWidth={detection?.detectedWidth ?? null}
       />
-      {noteParts.length > 0 && (
-        <div className="border-t border-slate-200/70 bg-slate-50/60 px-4 py-2 text-[11px] text-slate-500 dark:border-slate-800/60 dark:bg-slate-900/40 dark:text-slate-400">
-          {noteParts.join(' · ')}
+      {(info || noteParts.length > 0) && (
+        // Status block pinned to the bottom of the settings column: render stats on top,
+        // advisory notes below, each with its own highlighted background.
+        <div className="mt-auto">
+          {info && (
+            <div className="border-t border-slate-200/70 bg-slate-100/80 px-4 py-2 text-[11px] text-slate-600 dark:border-slate-800/60 dark:bg-slate-800/40 dark:text-slate-300">
+              {info}
+            </div>
+          )}
+          {noteParts.length > 0 && (
+            <div className="border-t border-amber-200/70 bg-amber-50/80 px-4 py-2 text-[11px] text-amber-700 dark:border-amber-900/40 dark:bg-amber-900/20 dark:text-amber-300">
+              {noteParts.join(' · ')}
+            </div>
+          )}
         </div>
       )}
     </>
@@ -509,7 +520,6 @@ export function App() {
           !clipboardSupported()
         }
         isWorking={isSaving}
-        info={info}
       />
 
       <Footer i18n={i18n} />

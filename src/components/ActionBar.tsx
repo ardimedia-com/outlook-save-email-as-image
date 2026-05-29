@@ -9,7 +9,6 @@ interface ActionBarProps {
   saveDisabled: boolean;
   clipboardDisabled: boolean;
   isWorking?: boolean;
-  info?: React.ReactNode;
 }
 
 export function ActionBar({
@@ -19,13 +18,9 @@ export function ActionBar({
   saveDisabled,
   clipboardDisabled,
   isWorking,
-  info,
 }: ActionBarProps) {
   return (
-    <div className="glass-bar flex items-center justify-between gap-4 px-4 py-3">
-      <div className="min-w-0 flex-1 truncate text-xs text-slate-500 dark:text-slate-400">
-        {info}
-      </div>
+    <div className="glass-bar flex items-center justify-end gap-2 px-4 py-3">
       <div className="flex shrink-0 items-center gap-2">
         <Button
           variant="secondary"
