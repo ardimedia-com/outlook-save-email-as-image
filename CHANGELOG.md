@@ -110,6 +110,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the privacy page, the README and the (unused) `app.title` string. Manifest changes take effect
   after the regenerated manifest is re-uploaded to the M365 Admin Center. Repo/package slug and
   GitHub URLs are intentionally unchanged.
+- Migrated styling to **Tailwind CSS v4**. The JS `tailwind.config.js` and `autoprefixer` are
+  gone; configuration is now CSS-first in `globals.css` (`@theme` tokens for the brand palette,
+  shadows and animations; `@utility` for `card`/`glass-bar`/etc.; `@custom-variant dark` to keep
+  the class-based dark mode), built via `@tailwindcss/postcss`. `theme()` calls became CSS
+  variables and the v3→v4 utility renames (e.g. `backdrop-blur`→`backdrop-blur-sm`,
+  `outline-none`→`outline-hidden`) were applied across components. No visual change intended.
 - App background is now white in light mode (was slate-50); dark mode is unchanged.
 - Image stats (dimensions, scale, size, type) moved out of the action bar into a highlighted
   status block pinned to the bottom of the settings column, with the advisory notes (blocked

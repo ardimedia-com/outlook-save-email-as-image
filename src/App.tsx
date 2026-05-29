@@ -498,7 +498,7 @@ export function App() {
               setSettingsPx((h) => Math.max(140, h - 24));
             }
           }}
-          className="app-divider group flex h-2.5 shrink-0 cursor-row-resize items-center justify-center border-t border-slate-200/70 bg-slate-100/70 transition-colors hover:bg-brand-100 focus-visible:bg-brand-100 focus-visible:outline-none dark:border-slate-800/60 dark:bg-slate-900/50 dark:hover:bg-brand-900/40 dark:focus-visible:bg-brand-900/40"
+          className="app-divider group flex h-2.5 shrink-0 cursor-row-resize items-center justify-center border-t border-slate-200/70 bg-slate-100/70 transition-colors hover:bg-brand-100 focus-visible:bg-brand-100 focus-visible:outline-hidden dark:border-slate-800/60 dark:bg-slate-900/50 dark:hover:bg-brand-900/40 dark:focus-visible:bg-brand-900/40"
           title="Drag to resize"
         >
           <span className="h-1 w-10 rounded-full bg-slate-300 transition-colors group-hover:bg-brand-400 dark:bg-slate-600" />

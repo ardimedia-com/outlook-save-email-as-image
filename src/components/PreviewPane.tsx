@@ -81,7 +81,7 @@ export function PreviewPane({
           >
             <Minus className="h-3.5 w-3.5" />
           </Button>
-          <span className="min-w-[3rem] text-center text-xs tabular-nums text-slate-500">
+          <span className="min-w-12 text-center text-xs tabular-nums text-slate-500">
             {Math.round(zoom * 100)}%
           </span>
           <Button
@@ -129,7 +129,7 @@ export function PreviewPane({
                   : i18n.t('section.preview')
               }
               className={cn(
-                'h-auto rounded shadow-soft-lg transition-opacity',
+                'h-auto rounded-sm shadow-soft-lg transition-opacity',
                 isRendering && 'opacity-60'
               )}
               style={{ width: currentPage.width * zoom * 0.5, maxWidth: '100%' }}
@@ -138,7 +138,7 @@ export function PreviewPane({
         </div>
 
         {isRendering && (
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white/40 backdrop-blur-sm dark:bg-slate-950/40">
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white/40 backdrop-blur-xs dark:bg-slate-950/40">
             <div className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-slate-700 shadow-soft ring-1 ring-slate-200/70 dark:bg-slate-800/90 dark:text-slate-200 dark:ring-slate-700/60">
               <Loader2 className="h-4 w-4 animate-spin text-brand-600" />
               {i18n.t('status.rendering')}

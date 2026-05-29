@@ -36,7 +36,7 @@ export function Toast({ toast, onDismiss, autoDismissMs }: ToastProps) {
         role={isError ? 'alert' : 'status'}
         aria-live={isError ? 'assertive' : 'polite'}
         className={cn(
-          'pointer-events-auto flex max-w-md items-start gap-2.5 rounded-xl px-4 py-3 text-sm shadow-soft-lg ring-1 backdrop-blur animate-slide-up',
+          'pointer-events-auto flex max-w-md items-start gap-2.5 rounded-xl px-4 py-3 text-sm shadow-soft-lg ring-1 backdrop-blur-sm animate-slide-up',
           isError
             ? 'bg-amber-50/95 text-amber-900 ring-amber-200 dark:bg-amber-950/80 dark:text-amber-100 dark:ring-amber-900/60'
             : 'bg-emerald-50/95 text-emerald-900 ring-emerald-200 dark:bg-emerald-950/80 dark:text-emerald-100 dark:ring-emerald-900/60'
@@ -52,7 +52,7 @@ export function Toast({ toast, onDismiss, autoDismissMs }: ToastProps) {
           type="button"
           onClick={onDismiss}
           aria-label="Dismiss"
-          className="mt-0.5 shrink-0 rounded p-0.5 opacity-60 transition-opacity hover:opacity-100"
+          className="mt-0.5 shrink-0 rounded-sm p-0.5 opacity-60 transition-opacity hover:opacity-100"
         >
           <X className="h-3.5 w-3.5" />
         </button>

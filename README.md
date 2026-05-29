@@ -149,10 +149,10 @@ Save / Clipboard  → download via <a download> OR navigator.clipboard.write
 │   │   └── cn.ts                # class merger
 │   ├── locales/                 # 11 JSON bundles
 │   ├── hooks/                   # useTheme, useDebouncedValue
-│   ├── styles/globals.css       # Tailwind base + custom components
+│   ├── styles/globals.css       # Tailwind v4 theme + utilities (CSS-first config)
 │   └── types/settings.ts        # Settings type + defaults
 ├── manifest.xml                 # Office Add-In manifest (11 locale overrides)
-├── tailwind.config.js
+├── postcss.config.js            # @tailwindcss/postcss
 ├── vite.config.ts
 └── tsconfig.json
 ```

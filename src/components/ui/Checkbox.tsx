@@ -21,10 +21,10 @@ export function Checkbox({ id, checked, onCheckedChange, label, className }: Che
         checked={checked}
         onCheckedChange={(v) => onCheckedChange(v === true)}
         className={cn(
-          'flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white transition-colors',
+          'flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border border-slate-300 bg-white transition-colors',
           'hover:border-slate-400',
           'data-[state=checked]:border-brand-600 data-[state=checked]:bg-brand-600',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-slate-900',
+          'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-slate-900',
           'dark:border-slate-600 dark:bg-slate-800 dark:hover:border-slate-500'
         )}
       >

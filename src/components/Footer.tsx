@@ -12,7 +12,7 @@ const commandLink =
 
 export function Footer({ i18n }: { i18n: I18n }) {
   return (
-    <footer className="border-t border-slate-200/70 bg-slate-100/80 px-4 py-2.5 text-[11px] text-slate-500 backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/80 dark:text-slate-400">
+    <footer className="border-t border-slate-200/70 bg-slate-100/80 px-4 py-2.5 text-[11px] text-slate-500 backdrop-blur-sm dark:border-slate-800/60 dark:bg-slate-900/80 dark:text-slate-400">
       {/* Top line: the commands, styled as buttons */}
       <div className="flex flex-wrap items-center justify-center gap-2">
         <a href={STORE_URL} target="_blank" rel="noopener noreferrer" className={commandLink}>

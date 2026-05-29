@@ -44,7 +44,7 @@ export function Slider({
         className={cn(
           'block h-4 w-4 rounded-full bg-white shadow-soft ring-2 ring-brand-600 transition-transform',
           'hover:scale-110',
-          'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-500/40',
+          'focus-visible:outline-hidden focus-visible:ring-4 focus-visible:ring-brand-500/40',
           'dark:bg-slate-100 dark:ring-brand-500'
         )}
       />

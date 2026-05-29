@@ -1,6 +1,101 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans:
+    Inter Variable, Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI,
+    Roboto, sans-serif;
+
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-200: #c7d2fe;
+  --color-brand-300: #a5b4fc;
+  --color-brand-400: #818cf8;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+  --color-brand-800: #3730a3;
+  --color-brand-900: #312e81;
+  --color-brand-950: #1e1b4b;
+
+  --animate-fade-in: fadeIn 200ms ease-out;
+  --animate-slide-up: slideUp 200ms ease-out;
+  --animate-shimmer: shimmer 1.5s ease-in-out infinite;
+
+  --shadow-soft-sm:
+    0 1px 2px 0 rgb(0 0 0 / 0.04), 0 1px 3px 0 rgb(0 0 0 / 0.06);
+  --shadow-soft:
+    0 2px 6px -1px rgb(0 0 0 / 0.06), 0 4px 12px -2px rgb(0 0 0 / 0.08);
+  --shadow-soft-lg:
+    0 8px 24px -4px rgb(0 0 0 / 0.08), 0 16px 48px -8px rgb(0 0 0 / 0.12);
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes slideUp {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes shimmer {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility card {
+  @apply rounded-xl border border-slate-200/70 bg-white/80 shadow-soft-sm backdrop-blur-sm dark:border-slate-800/60 dark:bg-slate-900/70;
+}
+
+@utility label-text {
+  @apply text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400;
+}
+
+@utility field-group {
+  @apply flex flex-col gap-1.5;
+}
+
+@utility divider {
+  @apply h-px w-full bg-slate-200/70 dark:bg-slate-800/70;
+}
+
+@utility glass-bar {
+  @apply border-t border-slate-200/70 bg-white/70 backdrop-blur-md dark:border-slate-800/60 dark:bg-slate-900/70;
+}
 
 @layer base {
   :root {
@@ -31,7 +126,7 @@
 
   /* Subtle focus rings (modern, indigo-tinted) */
   *:focus-visible {
-    outline: 2px solid theme('colors.brand.500');
+    outline: 2px solid var(--color-brand-500);
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -40,10 +135,10 @@
      keep older WebView2 / Safari covered. */
   * {
     scrollbar-width: thin;
-    scrollbar-color: theme('colors.slate.300') transparent;
+    scrollbar-color: var(--color-slate-300) transparent;
   }
   .dark * {
-    scrollbar-color: theme('colors.slate.700') transparent;
+    scrollbar-color: var(--color-slate-700) transparent;
   }
 
   /* Custom scrollbar (modern, slim) */
@@ -55,49 +150,27 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: theme('colors.slate.300');
+    background: var(--color-slate-300);
     border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: theme('colors.slate.400');
+    background: var(--color-slate-400);
   }
   .dark ::-webkit-scrollbar-thumb {
-    background: theme('colors.slate.700');
+    background: var(--color-slate-700);
   }
   .dark ::-webkit-scrollbar-thumb:hover {
-    background: theme('colors.slate.600');
-  }
-}
-
-@layer components {
-  .card {
-    @apply rounded-xl border border-slate-200/70 bg-white/80 shadow-soft-sm backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/70;
-  }
-
-  .label-text {
-    @apply text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400;
-  }
-
-  .field-group {
-    @apply flex flex-col gap-1.5;
-  }
-
-  .divider {
-    @apply h-px w-full bg-slate-200/70 dark:bg-slate-800/70;
-  }
-
-  .glass-bar {
-    @apply border-t border-slate-200/70 bg-white/70 backdrop-blur-md dark:border-slate-800/60 dark:bg-slate-900/70;
+    background: var(--color-slate-600);
   }
 }
 
 /* Preview-area checkerboard for transparent areas */
 .preview-checkerboard {
   background-image:
-    linear-gradient(45deg, theme('colors.slate.200') 25%, transparent 25%),
-    linear-gradient(-45deg, theme('colors.slate.200') 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, theme('colors.slate.200') 75%),
-    linear-gradient(-45deg, transparent 75%, theme('colors.slate.200') 75%);
+    linear-gradient(45deg, var(--color-slate-200) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--color-slate-200) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--color-slate-200) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--color-slate-200) 75%);
   background-size: 16px 16px;
   background-position:
     0 0,
@@ -107,10 +180,10 @@
 }
 .dark .preview-checkerboard {
   background-image:
-    linear-gradient(45deg, theme('colors.slate.800') 25%, transparent 25%),
-    linear-gradient(-45deg, theme('colors.slate.800') 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, theme('colors.slate.800') 75%),
-    linear-gradient(-45deg, transparent 75%, theme('colors.slate.800') 75%);
+    linear-gradient(45deg, var(--color-slate-800) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--color-slate-800) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--color-slate-800) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--color-slate-800) 75%);
 }
 
 /* Adaptive layout driven by the pane width (container query), not the viewport.
@@ -138,10 +211,10 @@
     width: 380px;
     height: auto;
     border-top: 0;
-    border-right: 1px solid theme('colors.slate.200');
+    border-right: 1px solid var(--color-slate-200);
   }
   .dark .app-settings {
-    border-right-color: theme('colors.slate.800');
+    border-right-color: var(--color-slate-800);
   }
 }
 

@@ -40,7 +40,7 @@ export function RadioGroup({
             value={opt.value}
             className={cn(
               'flex-1 cursor-pointer rounded-md px-3 py-1.5 text-center text-xs font-medium transition-all',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-1',
+              'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-1',
               selected
                 ? 'bg-white text-slate-900 shadow-soft-sm dark:bg-slate-700 dark:text-slate-100'
                 : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
