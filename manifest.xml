@@ -10,7 +10,7 @@
   <ProviderName>Ardimedia</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
 
-  <DisplayName DefaultValue="Save Email as Image">
+  <DisplayName DefaultValue="Email as Image">
     <Override Locale="de" Value="E-Mail als Bild speichern" />
     <Override Locale="fr" Value="Enregistrer l'e-mail comme image" />
     <Override Locale="es" Value="Guardar correo como imagen" />
