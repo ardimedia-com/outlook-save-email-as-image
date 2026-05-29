@@ -104,7 +104,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Renamed the app to "Email as Image" everywhere it appears as a name: the task pane title
+  (manifest `DisplayName` + all locale overrides), the ribbon button label (`TaskpaneButton.Label`
+  "Save as Image" → "Email as Image" + all locale overrides), the footer tagline (all locales),
+  the privacy page, the README and the (unused) `app.title` string. Manifest changes take effect
+  after the regenerated manifest is re-uploaded to the M365 Admin Center. Repo/package slug and
+  GitHub URLs are intentionally unchanged.
 - App background is now white in light mode (was slate-50); dark mode is unchanged.
+- Image stats (dimensions, scale, size, type) moved out of the action bar into a highlighted
+  status block pinned to the bottom of the settings column, with the advisory notes (blocked
+  images, sent-time fallback) shown below them in an amber-tinted status row. The action bar now
+  holds only the Copy/Save actions.
 - Footer is now two lines: the Office Store and GitHub commands sit on top as buttons, with the
   app name, version and Privacy link on the bottom line.
 - Responsive layout is now driven by the pane width via a CSS container query instead of a JS
@@ -118,6 +128,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Trim empty margins now removes coloured side bands too.** With the setting on, the email is
+  rendered shrink-to-fit (its natural content width, capped at the chosen width) instead of at a
+  fixed wider canvas. Emails narrower than the canvas (e.g. a 600px marketing layout on a grey
+  page background) no longer leave wide grey side bands, and the full-width forwarding header and
+  its rule collapse to the same width as the content. Flowing/plain-text content still wraps at
+  the cap, so wider emails are unaffected. The white render padding is still trimmed by auto-crop.
 - **Rendered preview now shows in the pane.** The CSP `img-src` did not allow `blob:`, so the
   preview `<img>` (an object URL created from the rendered canvas blob) was blocked and showed a
   broken image even though the render succeeded. `img-src` now allows `blob:`.

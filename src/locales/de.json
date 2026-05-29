@@ -64,7 +64,7 @@
   "error.generic": "Es ist ein Fehler aufgetreten: {message}",
   "error.retry": "Erneut versuchen",
 
-  "footer.tagline": "Save Email as Image · Open-Source von Ardimedia · MIT",
+  "footer.tagline": "Email as Image · Open-Source von Ardimedia · MIT",
   "footer.review": "Im Office Store bewerten",
   "footer.feedback": "Feedback / Issues auf GitHub",
   "footer.privacy": "Datenschutz",

@@ -1,4 +1,4 @@
-# Save Email as Image
+# Email as Image
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Office Add-In](https://img.shields.io/badge/Office%20Add--In-Outlook-blue.svg)](https://learn.microsoft.com/en-us/office/dev/add-ins/outlook/)
@@ -68,7 +68,7 @@ Pick the path that matches your setup:
 4. In the dialog: **My add-ins** → **Custom Addins** → **Add a custom add-in** →
    **Add from file…**
 5. Pick `manifest.xml` from the project root
-6. Reload the mail — the **"Save as Image"** ribbon button appears in the *Image Export*
+6. Reload the mail — the **"Email as Image"** ribbon button appears in the *Image Export*
    group.
 
 #### Option B — Outlook for Windows (classic)
@@ -90,7 +90,7 @@ before running.
 ### 5. Test it
 
 1. Open any email in Outlook
-2. Click **"Save as Image"** in the ribbon
+2. Click **"Email as Image"** in the ribbon
 3. The taskpane opens with a live preview
 4. Tweak settings as needed — preview updates within ~300 ms
 5. Click **Save** → PNG downloads to your default Downloads folder

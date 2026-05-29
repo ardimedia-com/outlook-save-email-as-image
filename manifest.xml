@@ -11,15 +11,15 @@
   <DefaultLocale>en-US</DefaultLocale>
 
   <DisplayName DefaultValue="Email as Image">
-    <Override Locale="de" Value="E-Mail als Bild speichern" />
-    <Override Locale="fr" Value="Enregistrer l'e-mail comme image" />
-    <Override Locale="es" Value="Guardar correo como imagen" />
-    <Override Locale="pt-BR" Value="Salvar e-mail como imagem" />
-    <Override Locale="pt-PT" Value="Guardar e-mail como imagem" />
-    <Override Locale="nl" Value="E-mail opslaan als afbeelding" />
-    <Override Locale="pl" Value="Zapisz e-mail jako obraz" />
-    <Override Locale="ja" Value="メールを画像として保存" />
-    <Override Locale="zh-Hans" Value="将邮件另存为图像" />
+    <Override Locale="de" Value="E-Mail als Bild" />
+    <Override Locale="fr" Value="E-mail en image" />
+    <Override Locale="es" Value="Correo como imagen" />
+    <Override Locale="pt-BR" Value="E-mail como imagem" />
+    <Override Locale="pt-PT" Value="E-mail como imagem" />
+    <Override Locale="nl" Value="E-mail als afbeelding" />
+    <Override Locale="pl" Value="E-mail jako obraz" />
+    <Override Locale="ja" Value="画像としてのメール" />
+    <Override Locale="zh-Hans" Value="邮件转图像" />
   </DisplayName>
 
   <Description DefaultValue="Export the currently opened email as a PNG or JPG image, with optional Outlook-style forwarding header.">
@@ -121,16 +121,16 @@
           <bt:Override Locale="ja" Value="画像エクスポート" />
           <bt:Override Locale="zh-Hans" Value="导出图像" />
         </bt:String>
-        <bt:String id="TaskpaneButton.Label" DefaultValue="Save as Image">
-          <bt:Override Locale="de" Value="Als Bild" />
-          <bt:Override Locale="fr" Value="Enregistrer comme image" />
-          <bt:Override Locale="es" Value="Guardar como imagen" />
-          <bt:Override Locale="pt-BR" Value="Salvar como imagem" />
-          <bt:Override Locale="pt-PT" Value="Guardar como imagem" />
-          <bt:Override Locale="nl" Value="Opslaan als afbeelding" />
-          <bt:Override Locale="pl" Value="Zapisz jako obraz" />
-          <bt:Override Locale="ja" Value="画像として保存" />
-          <bt:Override Locale="zh-Hans" Value="另存为图像" />
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Email as Image">
+          <bt:Override Locale="de" Value="E-Mail als Bild" />
+          <bt:Override Locale="fr" Value="E-mail en image" />
+          <bt:Override Locale="es" Value="Correo como imagen" />
+          <bt:Override Locale="pt-BR" Value="E-mail como imagem" />
+          <bt:Override Locale="pt-PT" Value="E-mail como imagem" />
+          <bt:Override Locale="nl" Value="E-mail als afbeelding" />
+          <bt:Override Locale="pl" Value="E-mail jako obraz" />
+          <bt:Override Locale="ja" Value="画像としてのメール" />
+          <bt:Override Locale="zh-Hans" Value="邮件转图像" />
         </bt:String>
       </bt:ShortStrings>
       <bt:LongStrings>

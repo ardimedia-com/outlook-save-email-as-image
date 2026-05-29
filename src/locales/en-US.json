@@ -1,5 +1,5 @@
 {
-  "app.title": "Save Email as Image",
+  "app.title": "Email as Image",
   "app.subtitle": "Export this message as PNG or JPG",
 
   "section.preview": "Preview",
@@ -64,7 +64,7 @@
   "error.generic": "Something went wrong: {message}",
   "error.retry": "Try again",
 
-  "footer.tagline": "Save Email as Image · Open-Source by Ardimedia · MIT",
+  "footer.tagline": "Email as Image · Open-Source by Ardimedia · MIT",
   "footer.review": "Rate on Office Store",
   "footer.feedback": "Feedback / Issues on GitHub",
   "footer.privacy": "Privacy",

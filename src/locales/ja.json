@@ -66,7 +66,7 @@
   "error.generic": "エラーが発生しました: {message}",
   "error.retry": "再試行",
 
-  "footer.tagline": "Save Email as Image · Ardimedia によるオープンソース · MIT",
+  "footer.tagline": "Email as Image · Ardimedia によるオープンソース · MIT",
   "footer.review": "Office Store で評価する",
   "footer.feedback": "GitHub でフィードバック / 問題報告",
 
