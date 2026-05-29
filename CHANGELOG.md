@@ -129,8 +129,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stacked (narrow) layout: **settings on top, preview below**. The settings panel sizes to its
   content (no wasted whitespace under the controls — the status block sits right after them) and
   the preview fills all remaining height; drag the divider to give the settings panel more or
-  less room. Added a **"Settings" section header** above the controls, mirroring the preview's
-  header. The two-column wide layout is unchanged. Save/clipboard toasts overlay the whole pane.
+  less room. Added a **"Settings" section header** above the controls (sticky top) and the
+  **status block is sticky to the bottom** of the settings panel, so both stay visible while the
+  controls scroll. The two-column wide layout is unchanged. Save/clipboard toasts overlay the
+  whole pane.
 - App background is now white in light mode (was slate-50); dark mode is unchanged.
 - Image stats (dimensions, scale, size, type) moved out of the action bar into a highlighted
   status block pinned to the bottom of the settings column, with the advisory notes (blocked
