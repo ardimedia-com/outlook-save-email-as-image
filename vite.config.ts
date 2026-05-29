@@ -48,6 +48,16 @@ export default defineConfig({
         taskpane: resolve(__dirname, 'src/taskpane.html'),
         commands: resolve(__dirname, 'src/commands.html'),
       },
+      output: {
+        // Split the heaviest dependencies into their own long-cached chunks so the app
+        // chunk stays small and a code change doesn't bust the vendor cache.
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined;
+          if (id.includes('html2canvas')) return 'html2canvas';
+          if (id.includes('dompurify')) return 'sanitize';
+          return 'vendor';
+        },
+      },
     },
   },
 });
