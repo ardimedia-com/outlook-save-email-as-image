@@ -120,12 +120,32 @@ export function App() {
     let alive = true;
     let settled = false;
 
+    // Capture anything that could silently break the Office host handshake during the
+    // wait, so it shows up in the on-screen error detail without attaching a debugger.
+    // A CSP violation here would explain "office.js loaded but onReady never fired".
+    const diag: string[] = [];
+    const onCsp = (e: SecurityPolicyViolationEvent) => {
+      diag.push(`CSP ${e.effectiveDirective || e.violatedDirective} blocked ${e.blockedURI || 'inline'}`);
+    };
+    const onErr = (e: ErrorEvent) => {
+      if (e.message) diag.push(`error: ${e.message}`);
+    };
+    document.addEventListener('securitypolicyviolation', onCsp);
+    window.addEventListener('error', onErr);
+
+    const cleanup = () => {
+      alive = false;
+      document.removeEventListener('securitypolicyviolation', onCsp);
+      window.removeEventListener('error', onErr);
+    };
+
     const fail = (code: string, detail: string) => {
       if (!alive || settled) return;
       settled = true;
+      const full = diag.length ? `${detail} | ${diag.join('; ')}` : detail;
       // eslint-disable-next-line no-console
-      console.warn(`[save-email] init failed: ${code} — ${detail}`);
-      setError({ code, detail });
+      console.warn(`[save-email] init failed: ${code} — ${full}`);
+      setError({ code, detail: full });
       setIsLoading(false);
     };
 
@@ -135,9 +155,7 @@ export function App() {
     // a present global whose onReady never fires means the Outlook host handshake stalled.
     if (typeof Office === 'undefined') {
       fail('OFFICE_INIT_TIMEOUT', 'office.js did not load (CDN blocked, offline, or CSP)');
-      return () => {
-        alive = false;
-      };
+      return cleanup;
     }
 
     // Safety watchdog: an add-in must never hang forever on the loading spinner.
@@ -169,8 +187,8 @@ export function App() {
     });
 
     return () => {
-      alive = false;
       window.clearTimeout(watchdog);
+      cleanup();
     };
   }, [loadEmail]);
 

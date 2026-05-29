@@ -126,7 +126,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (office.js never loaded — CDN blocked/offline/CSP) from `Office.onReady` never firing (host
   handshake stalled) and surfaces a short technical detail line under the error message, so the
   root cause is visible without attaching a debugger. A missing global also fails fast instead
-  of waiting out the watchdog.
+  of waiting out the watchdog. The detail line also reports any Content-Security-Policy
+  violation or runtime error captured during the init wait, so a blocked host handshake names
+  the offending directive/URL on screen.
 
 ## [0.1.0-alpha.1] - 2026-05-28
 
