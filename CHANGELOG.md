@@ -105,11 +105,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - App background is now white in light mode (was slate-50); dark mode is unchanged.
+- Footer is now two lines: the Office Store and GitHub commands sit on top as buttons, with the
+  app name, version and Privacy link on the bottom line.
 - Render pipeline order is now sanitize → CID-resolve → render (data URLs from trusted
   attachments are injected post-sanitization, avoiding any URI-scheme stripping).
 
 ### Fixed
 
+- **Rendered preview now shows in the pane.** The CSP `img-src` did not allow `blob:`, so the
+  preview `<img>` (an object URL created from the rendered canvas blob) was blocked and showed a
+  broken image even though the render succeeded. `img-src` now allows `blob:`.
 - **Add-in now initializes in classic Outlook.** The strict `script-src` CSP blocked
   `https://ajax.aspnetcdn.com` and inline/eval, which the Outlook desktop host needs because
   office.js injects `MicrosoftAjax.js` from that CDN during initialization. The block stalled
