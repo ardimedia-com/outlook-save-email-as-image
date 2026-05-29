@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Privacy policy page** (`public/privacy.html`) served at `/privacy.html`, linked from the
   task-pane footer — states that all processing is local and no data is collected or
   transmitted. Needed for the AppSource submission later.
+- **Terms of Use page** (`public/terms.html`) served at `/terms.html`, linked from the footer
+  next to Privacy — MIT, provided as-is, acceptable-use and no-warranty. For the AppSource listing.
+- **Error hint**: every error screen now shows a persistent suggestion to try a newer Outlook
+  version or Outlook on the web, since the add-in requires a modern Outlook runtime.
 - **Accessibility pass** — document `lang` tracks the resolved locale; error toasts use
   `role="alert"`/`aria-live="assertive"`; the resize divider is keyboard-operable
   (Tab-focus + Arrow keys, with `aria-valuenow/min/max`); preview image alt text is
@@ -116,6 +120,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the class-based dark mode), built via `@tailwindcss/postcss`. `theme()` calls became CSS
   variables and the v3→v4 utility renames (e.g. `backdrop-blur`→`backdrop-blur-sm`,
   `outline-none`→`outline-hidden`) were applied across components. No visual change intended.
+- Dropped support for Outlook 2016/2019 perpetual: the Mailbox requirement set is now **1.8**
+  (was 1.5), so the add-in only activates on Microsoft 365 Outlook (modern WebView2), new
+  Outlook and OWA — the runtimes that can run the modern bundle (ES modules, Tailwind v4,
+  container queries). 1.8 also matches the actual API need (`getAttachmentContentAsync`).
+- The build now code-splits `html2canvas` and `dompurify` into their own long-cached chunks,
+  so the app chunk stays small and a code change no longer busts the vendor cache.
 - App background is now white in light mode (was slate-50); dark mode is unchanged.
 - Image stats (dimensions, scale, size, type) moved out of the action bar into a highlighted
   status block pinned to the bottom of the settings column, with the advisory notes (blocked

@@ -7,14 +7,17 @@ An Outlook add-in that exports the currently opened email as a **PNG or JPG imag
 optional Outlook-style forwarding header in 11 languages. Open-source, MIT-licensed, no
 tracking.
 
-> **Status: v0.1.0-alpha** — happy path works (read email → preview → download PNG).
-> Auto-crop, smart pagination, CID-image resolution and EWS sent-time queries are wired
-> in but iterating toward production-ready in v1.0.
+> **Status: v0.1.0-alpha, preparing for v1.0 / AppSource.** The full flow works — read email
+> → live preview → export PNG/JPG or copy to clipboard. Auto-crop (incl. an email's own
+> coloured side bands), smart pagination, CID-image resolution and EWS sent-time queries are
+> implemented.
 
-## Features (v0.1.0-alpha)
+## Features
 
 - **Live preview** with on-the-fly re-rendering when settings change (debounced 300 ms)
-- **PNG export** (JPG comes in v1.x)
+- **PNG and JPG export** — JPG with a quality slider
+- **Auto-crop** — trims empty margins, including an email's own coloured side bands
+- **Smart pagination** — auto-split into A4-proportioned pages with clean page-breaks
 - **Outlook-style forwarding header** with localized labels and date format (11 locales)
 - **Email-type detection** — newsletter / Word-Outlook / plain-text / responsive
 - **External images blocked by default**, with a one-click "load for this export" toggle
@@ -28,7 +31,8 @@ tracking.
 ### Prerequisites
 
 - **Node.js 20+** and **npm 10+**
-- **Outlook for Windows / Mac** OR **Outlook on the Web** (Microsoft 365 mailbox)
+- **Microsoft 365 Outlook** (classic Windows/Mac), **new Outlook**, or **Outlook on the web**
+  (requires Mailbox requirement set 1.8 — Outlook 2016/2019 perpetual is not supported)
 - Trusted dev certificate for `https://localhost:3000`
 
 ### 1. Install dependencies
