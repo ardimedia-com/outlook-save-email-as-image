@@ -44,6 +44,11 @@ export function ErrorState({ i18n, code, detail, onRetry }: ErrorStateProps) {
         <AlertTriangle className="h-7 w-7" />
       </div>
       <p className="max-w-prose text-sm text-slate-700 dark:text-slate-300">{message}</p>
+      {detail && (
+        <p className="max-w-prose font-mono text-[11px] text-slate-400 dark:text-slate-500">
+          {detail}
+        </p>
+      )}
       {onRetry && (
         <Button variant="secondary" size="sm" onClick={onRetry}>
           <RotateCcw className="h-3.5 w-3.5" />

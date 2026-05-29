@@ -122,6 +122,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Body read fails fast on timeout: a timed-out HTML read no longer triggers a second
   full-timeout plain-text read, halving the worst-case wait before the error appears (≈12 s
   instead of ≈24 s) when the host is unresponsive.
+- Self-diagnosing init failure: the load failure now distinguishes a missing `Office` global
+  (office.js never loaded — CDN blocked/offline/CSP) from `Office.onReady` never firing (host
+  handshake stalled) and surfaces a short technical detail line under the error message, so the
+  root cause is visible without attaching a debugger. A missing global also fails fast instead
+  of waiting out the watchdog.
 
 ## [0.1.0-alpha.1] - 2026-05-28
 

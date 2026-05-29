@@ -120,18 +120,37 @@ export function App() {
     let alive = true;
     let settled = false;
 
+    const fail = (code: string, detail: string) => {
+      if (!alive || settled) return;
+      settled = true;
+      // eslint-disable-next-line no-console
+      console.warn(`[save-email] init failed: ${code} — ${detail}`);
+      setError({ code, detail });
+      setIsLoading(false);
+    };
+
+    // office.js is a synchronous <script> in <head>, so by the time this deferred module
+    // runs it has either defined the Office global or failed to load entirely. Telling these
+    // apart pinpoints the failure: a missing global means the CDN was blocked/offline/CSP;
+    // a present global whose onReady never fires means the Outlook host handshake stalled.
+    if (typeof Office === 'undefined') {
+      fail('OFFICE_INIT_TIMEOUT', 'office.js did not load (CDN blocked, offline, or CSP)');
+      return () => {
+        alive = false;
+      };
+    }
+
     // Safety watchdog: an add-in must never hang forever on the loading spinner.
     // OFFICE_INIT_TIMEOUT  → onReady never fired (loadEmail was never invoked).
     // LOAD_TIMEOUT         → onReady fired but the load stalled past every per-call guard.
-    // The distinct codes let the two failure modes be told apart for diagnostics.
     const watchdog = window.setTimeout(() => {
-      if (!alive || settled) return;
-      settled = true;
       const code = onReadyFiredRef.current ? 'LOAD_TIMEOUT' : 'OFFICE_INIT_TIMEOUT';
-      // eslint-disable-next-line no-console
-      console.warn(`[save-email] load watchdog fired: ${code}`);
-      setError({ code });
-      setIsLoading(false);
+      fail(
+        code,
+        onReadyFiredRef.current
+          ? 'Office.onReady fired but the message read stalled'
+          : 'office.js loaded but Office.onReady never fired — host did not initialise the add-in'
+      );
     }, OFFICE_LOAD_WATCHDOG_MS);
 
     Office.onReady(() => {
