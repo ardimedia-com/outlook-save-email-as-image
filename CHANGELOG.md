@@ -104,11 +104,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- App background is now white in light mode (was slate-50); dark mode is unchanged.
 - Render pipeline order is now sanitize → CID-resolve → render (data URLs from trusted
   attachments are injected post-sanitization, avoiding any URI-scheme stripping).
 
 ### Fixed
 
+- **Add-in now initializes in classic Outlook.** The strict `script-src` CSP blocked
+  `https://ajax.aspnetcdn.com` and inline/eval, which the Outlook desktop host needs because
+  office.js injects `MicrosoftAjax.js` from that CDN during initialization. The block stalled
+  office.js so `Office.onReady` never fired and the pane hung on load (it worked in a standalone
+  browser because the no-host path doesn't load that script). `script-src` now allows
+  `https://ajax.aspnetcdn.com`, `'unsafe-inline'` and `'unsafe-eval'` — required by Microsoft's
+  own library, not by app code.
 - Outlook classic no longer stays indefinitely on "Loading email" when Office.js callbacks
   stall. Email body read, EWS sent-time lookup, and inline-attachment fetch now use timeout
   guards and fail gracefully, allowing the error/retry state to appear instead of a permanent
