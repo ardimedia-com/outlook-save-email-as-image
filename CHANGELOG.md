@@ -134,6 +134,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Preview rendering no longer fails after the Tailwind v4 migration.** html2canvas cannot
+  parse `oklch()` colors, and v4's border-color compatibility shim resolved to an oklch value
+  on every element — including the rendered email — so html2canvas threw "unsupported color
+  function oklch". The shim now uses plain hex gray-200, keeping the render path oklch-free
+  (the container's own styles are already hex and html2canvas gets an explicit hex background).
 - **Trim empty margins now removes coloured side bands too.** With the setting on, the email is
   rendered shrink-to-fit (its natural content width, capped at the chosen width) instead of at a
   fixed wider canvas. Emails narrower than the canvas (e.g. a 600px marketing layout on a grey

@@ -60,12 +60,14 @@
 }
 
 /*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
+  The default border color changed to `currentcolor` in Tailwind CSS v4, so this restores
+  the v3 default (gray-200) on every element.
 
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
+  NOTE: the value is a plain hex on purpose, NOT var(--color-gray-200). v4's palette is oklch,
+  and html2canvas (used to render the email preview) cannot parse oklch colors. This rule
+  stamps a default border-color onto every rendered email element, so an oklch value here makes
+  html2canvas throw "unsupported color function oklch". Hex gray-200 is visually identical and
+  keeps the render path oklch-free.
 */
 @layer base {
   *,
@@ -73,7 +75,7 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
+    border-color: #e5e7eb;
   }
 }
 
