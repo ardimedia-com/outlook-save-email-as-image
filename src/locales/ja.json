@@ -5,6 +5,7 @@
   "status.saved": "画像を保存しました",
   "error.clipboardBlocked": "ブラウザーがこのアドインのクリップボードアクセスをブロックしました。これは Outlook on the web の既知の制限です。代わりに保存を使用するか、コピーが機能する Outlook デスクトップアプリをお試しください。",
   "footer.privacy": "プライバシー",
+  "footer.terms": "利用規約",
   "app.title": "画像としてのメール",
   "app.subtitle": "このメッセージを PNG または JPG としてエクスポート",
 
@@ -64,6 +65,7 @@
   "error.clipboardUnavailable": "この Outlook 環境ではクリップボードが利用できません。画像を保存して手動でコピーしてください。",
   "error.clipboardPngOnly": "クリップボードは PNG のみ対応しています。コピーするには PNG に切り替えてください。",
   "error.generic": "エラーが発生しました: {message}",
+  "error.hint": "繰り返し発生する場合は、新しいバージョンの Outlook が役立つことがあります。または Outlook on the web でメッセージを開いてください。",
   "error.retry": "再試行",
 
   "footer.tagline": "Email as Image · Ardimedia によるオープンソース · MIT",

@@ -1,10 +1,11 @@
-import { ExternalLink, Github, Shield, Star } from 'lucide-react';
+import { ExternalLink, FileText, Github, Shield, Star } from 'lucide-react';
 import type { I18n } from '@/lib/i18n';
 
 const STORE_URL = 'https://appsource.microsoft.com/';
 const GITHUB_ISSUES =
   'https://github.com/ardimedia-com/outlook-save-email-as-image/issues';
 const PRIVACY_URL = '/privacy.html';
+const TERMS_URL = '/terms.html';
 
 // Command links styled as buttons.
 const commandLink =
@@ -44,6 +45,18 @@ export function Footer({ i18n }: { i18n: I18n }) {
         >
           <Shield className="h-3 w-3" />
           {i18n.t('footer.privacy')}
+        </a>
+        <span className="opacity-40" aria-hidden="true">
+          ·
+        </span>
+        <a
+          href={TERMS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 hover:text-brand-600 dark:hover:text-brand-400"
+        >
+          <FileText className="h-3 w-3" />
+          {i18n.t('footer.terms')}
         </a>
       </div>
     </footer>

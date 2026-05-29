@@ -5,6 +5,7 @@
   "status.saved": "Image enregistrée",
   "error.clipboardBlocked": "Votre navigateur a bloqué l'accès au presse-papiers pour ce complément. C'est une restriction connue d'Outlook sur le web — utilisez Enregistrer, ou l'application de bureau Outlook où la copie fonctionne.",
   "footer.privacy": "Confidentialité",
+  "footer.terms": "Conditions",
   "app.title": "E-mail en image",
   "app.subtitle": "Exporter ce message en PNG ou JPG",
 
@@ -64,6 +65,7 @@
   "error.clipboardUnavailable": "Le presse-papiers n'est pas disponible dans cet environnement Outlook. Enregistrez l'image et copiez-la manuellement.",
   "error.clipboardPngOnly": "Le presse-papiers prend en charge uniquement PNG. Passez au format PNG pour copier.",
   "error.generic": "Une erreur s'est produite : {message}",
+  "error.hint": "Si le problème persiste, une version plus récente d'Outlook peut aider — ou ouvrez le message dans Outlook sur le web.",
   "error.retry": "Réessayer",
 
   "footer.tagline": "Email as Image · Open-Source par Ardimedia · MIT",

@@ -49,6 +49,9 @@ export function ErrorState({ i18n, code, detail, onRetry }: ErrorStateProps) {
           {detail}
         </p>
       )}
+      <p className="max-w-prose text-xs text-slate-500 dark:text-slate-400">
+        {i18n.t('error.hint')}
+      </p>
       {onRetry && (
         <Button variant="secondary" size="sm" onClick={onRetry}>
           <RotateCcw className="h-3.5 w-3.5" />

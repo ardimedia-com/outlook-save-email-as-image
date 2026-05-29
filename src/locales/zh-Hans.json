@@ -5,6 +5,7 @@
   "status.saved": "图像已保存",
   "error.clipboardBlocked": "您的浏览器阻止了此加载项的剪贴板访问。这是 Outlook 网页版的已知限制——请改用“保存”，或使用可正常复制的 Outlook 桌面应用。",
   "footer.privacy": "隐私",
+  "footer.terms": "条款",
   "app.title": "邮件转图像",
   "app.subtitle": "将此邮件导出为 PNG 或 JPG",
 
@@ -64,6 +65,7 @@
   "error.clipboardUnavailable": "此 Outlook 环境中剪贴板不可用。请保存图像并手动复制。",
   "error.clipboardPngOnly": "剪贴板仅支持 PNG。切换为 PNG 以复制。",
   "error.generic": "发生错误：{message}",
+  "error.hint": "如果该问题反复出现，较新版本的 Outlook 可能会有所帮助，或者在 Outlook 网页版中打开此邮件。",
   "error.retry": "重试",
 
   "footer.tagline": "Email as Image · Ardimedia 开源 · MIT",

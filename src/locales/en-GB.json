@@ -5,6 +5,7 @@
   "status.saved": "Image saved",
   "error.clipboardBlocked": "Your browser blocked clipboard access for this add-in. This is a known Outlook on the web restriction — use Save instead, or try the Outlook desktop app where copy works.",
   "footer.privacy": "Privacy",
+  "footer.terms": "Terms",
   "app.subtitle": "Export this message as PNG or JPG",
 
   "section.preview": "Preview",
@@ -63,6 +64,7 @@
   "error.clipboardUnavailable": "Clipboard access is not available in this Outlook environment. Save the image and copy it manually instead.",
   "error.clipboardPngOnly": "Clipboard supports PNG only. Switch the format to PNG to copy.",
   "error.generic": "Something went wrong: {message}",
+  "error.hint": "If this keeps happening, a newer Outlook version may help — or open the message in Outlook on the web.",
   "error.retry": "Try again",
 
   "footer.tagline": "Email as Image · Open-Source by Ardimedia · MIT",

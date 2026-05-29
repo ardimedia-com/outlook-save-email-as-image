@@ -62,12 +62,14 @@
   "error.clipboardBlocked": "Dein Browser hat den Zwischenablage-Zugriff für dieses Add-In blockiert. Das ist eine bekannte Einschränkung von Outlook im Web — nutze stattdessen Speichern, oder die Outlook-Desktop-App, wo Kopieren funktioniert.",
   "error.clipboardPngOnly": "Zwischenablage unterstützt nur PNG. Wechsle auf PNG, um zu kopieren.",
   "error.generic": "Es ist ein Fehler aufgetreten: {message}",
+  "error.hint": "Falls das wiederholt auftritt, kann eine neuere Outlook-Version helfen — oder öffnen Sie die Nachricht in Outlook im Web.",
   "error.retry": "Erneut versuchen",
 
   "footer.tagline": "Email as Image · Open-Source von Ardimedia · MIT",
   "footer.review": "Im Office Store bewerten",
   "footer.feedback": "Feedback / Issues auf GitHub",
   "footer.privacy": "Datenschutz",
+  "footer.terms": "Nutzungsbedingungen",
 
   "type.newsletter-fixed": "Newsletter (feste Breite)",
   "type.word-outlook": "Word / Outlook",

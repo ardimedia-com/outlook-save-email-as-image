@@ -5,6 +5,7 @@
   "status.saved": "Obraz zapisany",
   "error.clipboardBlocked": "Twoja przeglądarka zablokowała dostęp do schowka dla tego dodatku. To znane ograniczenie programu Outlook w sieci Web — użyj opcji Zapisz lub aplikacji klasycznej Outlook, w której kopiowanie działa.",
   "footer.privacy": "Prywatność",
+  "footer.terms": "Warunki",
   "app.title": "E-mail jako obraz",
   "app.subtitle": "Eksportuj tę wiadomość jako PNG lub JPG",
 
@@ -64,6 +65,7 @@
   "error.clipboardUnavailable": "Schowek niedostępny w tym środowisku Outlooka. Zapisz obraz i skopiuj ręcznie.",
   "error.clipboardPngOnly": "Schowek obsługuje tylko PNG. Przełącz format na PNG, aby skopiować.",
   "error.generic": "Wystąpił błąd: {message}",
+  "error.hint": "Jeśli problem się powtarza, pomóc może nowsza wersja programu Outlook — lub otwórz wiadomość w aplikacji Outlook w sieci Web.",
   "error.retry": "Spróbuj ponownie",
 
   "footer.tagline": "Email as Image · Open-Source od Ardimedia · MIT",

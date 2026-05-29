@@ -5,6 +5,7 @@
   "status.saved": "Afbeelding opgeslagen",
   "error.clipboardBlocked": "Je browser heeft klembordtoegang voor deze invoegtoepassing geblokkeerd. Dit is een bekende beperking van Outlook op het web — gebruik Opslaan of de Outlook-desktop-app, waar kopiëren werkt.",
   "footer.privacy": "Privacy",
+  "footer.terms": "Voorwaarden",
   "app.title": "E-mail als afbeelding",
   "app.subtitle": "Exporteer dit bericht als PNG of JPG",
 
@@ -64,6 +65,7 @@
   "error.clipboardUnavailable": "Klembord niet beschikbaar in deze Outlook-omgeving. Sla de afbeelding op en kopieer handmatig.",
   "error.clipboardPngOnly": "Klembord ondersteunt alleen PNG. Schakel over op PNG om te kopiëren.",
   "error.generic": "Er is een fout opgetreden: {message}",
+  "error.hint": "Als dit blijft gebeuren, kan een nieuwere Outlook-versie helpen — of open het bericht in Outlook op het web.",
   "error.retry": "Opnieuw proberen",
 
   "footer.tagline": "Email as Image · Open-Source door Ardimedia · MIT",

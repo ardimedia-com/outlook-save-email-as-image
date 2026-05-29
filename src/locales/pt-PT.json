@@ -5,6 +5,7 @@
   "status.saved": "Imagem guardada",
   "error.clipboardBlocked": "O seu navegador bloqueou o acesso à área de transferência para este suplemento. É uma restrição conhecida do Outlook na Web — utilize Guardar ou a aplicação de ambiente de trabalho do Outlook, onde copiar funciona.",
   "footer.privacy": "Privacidade",
+  "footer.terms": "Termos",
   "app.title": "E-mail como imagem",
   "app.subtitle": "Exportar esta mensagem como PNG ou JPG",
 
@@ -64,6 +65,7 @@
   "error.clipboardUnavailable": "A área de transferência não está disponível neste ambiente Outlook. Guarde a imagem e copie-a manualmente.",
   "error.clipboardPngOnly": "A área de transferência suporta apenas PNG. Mude para PNG para copiar.",
   "error.generic": "Ocorreu um erro: {message}",
+  "error.hint": "Se isto continuar a acontecer, uma versão mais recente do Outlook pode ajudar — ou abra a mensagem no Outlook na Web.",
   "error.retry": "Tentar novamente",
 
   "footer.tagline": "Email as Image · Open-Source pela Ardimedia · MIT",

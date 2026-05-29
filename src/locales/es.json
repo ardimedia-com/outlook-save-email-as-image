@@ -5,6 +5,7 @@
   "status.saved": "Imagen guardada",
   "error.clipboardBlocked": "Tu navegador bloqueó el acceso al portapapeles para este complemento. Es una restricción conocida de Outlook en la web: usa Guardar o la aplicación de escritorio de Outlook, donde copiar funciona.",
   "footer.privacy": "Privacidad",
+  "footer.terms": "Términos",
   "app.title": "Correo como imagen",
   "app.subtitle": "Exportar este mensaje como PNG o JPG",
 
@@ -64,6 +65,7 @@
   "error.clipboardUnavailable": "El portapapeles no está disponible en este entorno de Outlook. Guarda la imagen y cópiala manualmente.",
   "error.clipboardPngOnly": "El portapapeles solo admite PNG. Cambia el formato a PNG para copiar.",
   "error.generic": "Se produjo un error: {message}",
+  "error.hint": "Si el problema persiste, una versión más reciente de Outlook puede ayudar — o abra el mensaje en Outlook en la web.",
   "error.retry": "Reintentar",
 
   "footer.tagline": "Email as Image · Open-Source por Ardimedia · MIT",
