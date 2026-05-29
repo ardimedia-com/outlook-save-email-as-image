@@ -107,6 +107,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Render pipeline order is now sanitize → CID-resolve → render (data URLs from trusted
   attachments are injected post-sanitization, avoiding any URI-scheme stripping).
 
+### Fixed
+
+- Outlook classic no longer stays indefinitely on "Loading email" when Office.js callbacks
+  stall. Email body read, EWS sent-time lookup, and inline-attachment fetch now use timeout
+  guards and fail gracefully, allowing the error/retry state to appear instead of a permanent
+  spinner.
+
 ## [0.1.0-alpha.1] - 2026-05-28
 
 ### Added

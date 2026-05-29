@@ -31,6 +31,8 @@ export interface InlineImage {
   dataUrl: string;
 }
 
+const OFFICE_ASYNC_TIMEOUT_MS = 12000;
+
 function toEmailAddress(d: Office.EmailAddressDetails | undefined): EmailAddress | null {
   if (!d || !d.emailAddress) return null;
   return {
@@ -48,13 +50,33 @@ function toEmailAddressList(arr?: Office.EmailAddressDetails[]): EmailAddress[] 
 
 function getBodyAsync(item: Office.MessageRead, coercionType: Office.CoercionType): Promise<string> {
   return new Promise((resolve, reject) => {
-    item.body.getAsync(coercionType, (result) => {
-      if (result.status === Office.AsyncResultStatus.Succeeded) {
-        resolve(result.value);
-      } else {
-        reject(new Error(result.error?.message ?? 'Failed to read body'));
-      }
-    });
+    let settled = false;
+    const timer = window.setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      reject(new Error('BODY_TIMEOUT'));
+    }, OFFICE_ASYNC_TIMEOUT_MS);
+
+    const finish = (fn: () => void) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timer);
+      fn();
+    };
+
+    try {
+      item.body.getAsync(coercionType, (result) => {
+        finish(() => {
+          if (result.status === Office.AsyncResultStatus.Succeeded) {
+            resolve(result.value);
+          } else {
+            reject(new Error(result.error?.message ?? 'Failed to read body'));
+          }
+        });
+      });
+    } catch {
+      finish(() => reject(new Error('BODY_UNREADABLE')));
+    }
   });
 }
 
@@ -89,10 +111,22 @@ async function fetchSentTimeViaEws(itemId: string): Promise<Date | null> {
 </soap:Envelope>`;
 
   return new Promise((resolve) => {
+    let settled = false;
+    const finish = (value: Date | null) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timer);
+      resolve(value);
+    };
+
+    const timer = window.setTimeout(() => {
+      finish(null);
+    }, OFFICE_ASYNC_TIMEOUT_MS);
+
     try {
       mailbox.makeEwsRequestAsync(soap, (result) => {
         if (result.status !== Office.AsyncResultStatus.Succeeded) {
-          resolve(null);
+          finish(null);
           return;
         }
         const xmlText = result.value;
@@ -103,18 +137,18 @@ async function fetchSentTimeViaEws(itemId: string): Promise<Date | null> {
           'DateTimeSent'
         )[0];
         if (!node?.textContent) {
-          resolve(null);
+          finish(null);
           return;
         }
         const d = new Date(node.textContent);
         if (Number.isNaN(d.getTime())) {
-          resolve(null);
+          finish(null);
         } else {
-          resolve(d);
+          finish(d);
         }
       });
     } catch {
-      resolve(null);
+      finish(null);
     }
   });
 }
@@ -196,13 +230,33 @@ function getAttachmentContentAsync(
   attachmentId: string
 ): Promise<Office.AttachmentContent> {
   return new Promise((resolve, reject) => {
-    item.getAttachmentContentAsync(attachmentId, (result) => {
-      if (result.status === Office.AsyncResultStatus.Succeeded) {
-        resolve(result.value);
-      } else {
-        reject(new Error(result.error?.message ?? 'Failed to read attachment'));
-      }
-    });
+    let settled = false;
+    const timer = window.setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      reject(new Error('ATTACHMENT_TIMEOUT'));
+    }, OFFICE_ASYNC_TIMEOUT_MS);
+
+    const finish = (fn: () => void) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timer);
+      fn();
+    };
+
+    try {
+      item.getAttachmentContentAsync(attachmentId, (result) => {
+        finish(() => {
+          if (result.status === Office.AsyncResultStatus.Succeeded) {
+            resolve(result.value);
+          } else {
+            reject(new Error(result.error?.message ?? 'Failed to read attachment'));
+          }
+        });
+      });
+    } catch {
+      finish(() => reject(new Error('Failed to read attachment')));
+    }
   });
 }
 
