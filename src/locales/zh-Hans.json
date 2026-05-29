@@ -5,7 +5,7 @@
   "status.saved": "图像已保存",
   "error.clipboardBlocked": "您的浏览器阻止了此加载项的剪贴板访问。这是 Outlook 网页版的已知限制——请改用“保存”，或使用可正常复制的 Outlook 桌面应用。",
   "footer.privacy": "隐私",
-  "app.title": "将邮件另存为图像",
+  "app.title": "邮件转图像",
   "app.subtitle": "将此邮件导出为 PNG 或 JPG",
 
   "section.preview": "预览",

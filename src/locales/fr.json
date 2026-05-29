@@ -5,7 +5,7 @@
   "status.saved": "Image enregistrée",
   "error.clipboardBlocked": "Votre navigateur a bloqué l'accès au presse-papiers pour ce complément. C'est une restriction connue d'Outlook sur le web — utilisez Enregistrer, ou l'application de bureau Outlook où la copie fonctionne.",
   "footer.privacy": "Confidentialité",
-  "app.title": "Enregistrer l'e-mail comme image",
+  "app.title": "E-mail en image",
   "app.subtitle": "Exporter ce message en PNG ou JPG",
 
   "section.preview": "Aperçu",

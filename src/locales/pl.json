@@ -5,7 +5,7 @@
   "status.saved": "Obraz zapisany",
   "error.clipboardBlocked": "Twoja przeglądarka zablokowała dostęp do schowka dla tego dodatku. To znane ograniczenie programu Outlook w sieci Web — użyj opcji Zapisz lub aplikacji klasycznej Outlook, w której kopiowanie działa.",
   "footer.privacy": "Prywatność",
-  "app.title": "Zapisz e-mail jako obraz",
+  "app.title": "E-mail jako obraz",
   "app.subtitle": "Eksportuj tę wiadomość jako PNG lub JPG",
 
   "section.preview": "Podgląd",

@@ -5,7 +5,7 @@
   "status.saved": "Imagem salva",
   "error.clipboardBlocked": "Seu navegador bloqueou o acesso à área de transferência para este suplemento. É uma restrição conhecida do Outlook na Web — use Salvar ou o aplicativo do Outlook para desktop, onde copiar funciona.",
   "footer.privacy": "Privacidade",
-  "app.title": "Salvar e-mail como imagem",
+  "app.title": "E-mail como imagem",
   "app.subtitle": "Exportar esta mensagem como PNG ou JPG",
 
   "section.preview": "Pré-visualização",

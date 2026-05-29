@@ -5,7 +5,7 @@
   "status.saved": "Imagem guardada",
   "error.clipboardBlocked": "O seu navegador bloqueou o acesso à área de transferência para este suplemento. É uma restrição conhecida do Outlook na Web — utilize Guardar ou a aplicação de ambiente de trabalho do Outlook, onde copiar funciona.",
   "footer.privacy": "Privacidade",
-  "app.title": "Guardar e-mail como imagem",
+  "app.title": "E-mail como imagem",
   "app.subtitle": "Exportar esta mensagem como PNG ou JPG",
 
   "section.preview": "Pré-visualização",
