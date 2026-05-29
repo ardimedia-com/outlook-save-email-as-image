@@ -126,6 +126,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   container queries). 1.8 also matches the actual API need (`getAttachmentContentAsync`).
 - The build now code-splits `html2canvas` and `dompurify` into their own long-cached chunks,
   so the app chunk stays small and a code change no longer busts the vendor cache.
+- Stacked (narrow) layout reordered to **settings on top, preview below**. Settings takes
+  priority and the preview opens at about a third of the pane; drag the divider up to grow the
+  preview or down to collapse it. The two-column wide layout is unchanged (settings left,
+  preview right). Save/clipboard toasts now overlay the whole pane, so they show regardless of
+  the preview height.
 - App background is now white in light mode (was slate-50); dark mode is unchanged.
 - Image stats (dimensions, scale, size, type) moved out of the action bar into a highlighted
   status block pinned to the bottom of the settings column, with the advisory notes (blocked
