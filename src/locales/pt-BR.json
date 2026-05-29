@@ -58,6 +58,7 @@
   "error.noItem": "Nenhum e-mail selecionado. Abra ou selecione uma mensagem para continuar.",
   "error.bodyEmpty": "Este e-mail não possui conteúdo legível.",
   "error.bodyUnreadable": "Não foi possível ler o corpo do e-mail. A mensagem pode estar criptografada (IRM/S/MIME), ainda carregando ou inacessível por outro motivo.",
+  "error.officeInit": "Não foi possível conectar ao Outlook. O suplemento não terminou de carregar. Feche e reabra o painel de tarefas ou reinicie o Outlook e tente novamente.",
   "error.renderFailed": "Falha na renderização. Tente uma largura ou escala menor.",
   "error.tooManyImages": "Este e-mail contém imagens inline demais para renderizar com confiabilidade.",
   "error.clipboardUnavailable": "A área de transferência não está disponível neste ambiente do Outlook. Salve a imagem e copie manualmente.",

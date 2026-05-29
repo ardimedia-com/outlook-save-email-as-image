@@ -58,6 +58,7 @@
   "error.noItem": "Aucun e-mail sélectionné. Ouvrez ou sélectionnez un message pour continuer.",
   "error.bodyEmpty": "Cet e-mail n'a pas de contenu lisible.",
   "error.bodyUnreadable": "Impossible de lire le contenu de l'e-mail. Le message est peut-être chiffré (IRM/S/MIME), en cours de chargement ou autrement inaccessible.",
+  "error.officeInit": "Impossible de se connecter à Outlook. Le complément n'a pas fini de se charger. Fermez puis rouvrez le volet Office, ou redémarrez Outlook et réessayez.",
   "error.renderFailed": "Échec du rendu. Essayez une largeur ou une échelle plus petite.",
   "error.tooManyImages": "Cet e-mail contient trop d'images intégrées pour un rendu fiable.",
   "error.clipboardUnavailable": "Le presse-papiers n'est pas disponible dans cet environnement Outlook. Enregistrez l'image et copiez-la manuellement.",

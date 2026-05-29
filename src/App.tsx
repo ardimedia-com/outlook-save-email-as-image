@@ -49,6 +49,12 @@ function formatBytes(n: number): string {
 // Two-column layout kicks in at ~half a typical desktop width.
 const WIDE_QUERY = '(min-width: 760px)';
 
+// Hard ceiling on the initial load. The per-call timeouts in officeItemReader only
+// run once loadEmail() is invoked — i.e. after Office.onReady fires. If onReady never
+// fires (office.js blocked, CSP, or an Outlook-classic WebView quirk) loadEmail() is
+// never called and the spinner would hang forever. This backstop guarantees an exit.
+const OFFICE_LOAD_WATCHDOG_MS = 20000;
+
 export function App() {
   const { theme, toggle: toggleTheme } = useTheme();
   const isWide = useMediaQuery(WIDE_QUERY);
@@ -76,6 +82,7 @@ export function App() {
   const [toast, setToast] = useState<ToastData | null>(null);
 
   const renderTokenRef = useRef(0);
+  const onReadyFiredRef = useRef(false);
 
   const headerLocale: SupportedLocale =
     settings.headerLocale === 'auto'
@@ -111,18 +118,40 @@ export function App() {
 
   useEffect(() => {
     let alive = true;
+    let settled = false;
+
+    // Safety watchdog: an add-in must never hang forever on the loading spinner.
+    // OFFICE_INIT_TIMEOUT  → onReady never fired (loadEmail was never invoked).
+    // LOAD_TIMEOUT         → onReady fired but the load stalled past every per-call guard.
+    // The distinct codes let the two failure modes be told apart for diagnostics.
+    const watchdog = window.setTimeout(() => {
+      if (!alive || settled) return;
+      settled = true;
+      const code = onReadyFiredRef.current ? 'LOAD_TIMEOUT' : 'OFFICE_INIT_TIMEOUT';
+      // eslint-disable-next-line no-console
+      console.warn(`[save-email] load watchdog fired: ${code}`);
+      setError({ code });
+      setIsLoading(false);
+    }, OFFICE_LOAD_WATCHDOG_MS);
+
     Office.onReady(() => {
       if (!alive) return;
+      onReadyFiredRef.current = true;
       try {
         const lang = Office.context.displayLanguage || navigator.language;
         setLocale(resolveLocale(lang));
       } catch {
         setLocale(detectLocale());
       }
-      void loadEmail();
+      void loadEmail().finally(() => {
+        settled = true;
+        window.clearTimeout(watchdog);
+      });
     });
+
     return () => {
       alive = false;
+      window.clearTimeout(watchdog);
     };
   }, [loadEmail]);
 

@@ -16,7 +16,12 @@ function errorMessage(i18n: I18n, code: string, detail?: string): string {
     case 'BODY_EMPTY':
       return i18n.t('error.bodyEmpty');
     case 'BODY_UNREADABLE':
+    // onReady fired but the read stalled past every guard — same remedy as an
+    // unreadable body (still loading / inaccessible).
+    case 'LOAD_TIMEOUT':
       return i18n.t('error.bodyUnreadable');
+    case 'OFFICE_INIT_TIMEOUT':
+      return i18n.t('error.officeInit');
     case 'TOBLOB_FAILED':
     case 'RENDER_FAILED':
       return i18n.t('error.renderFailed');

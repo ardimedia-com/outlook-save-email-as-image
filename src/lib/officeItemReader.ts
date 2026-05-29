@@ -171,13 +171,18 @@ export async function readCurrentEmail(): Promise<EmailContent> {
       bodyHtml = wrapPlainText(text);
       bodyFormat = 'text';
     }
-  } catch {
-    // HTML read failed (encrypted? IRM?). Try plain text as last resort.
+  } catch (htmlErr) {
+    // If the HTML read TIMED OUT the host is unresponsive — a second full-timeout
+    // text read would just add another OFFICE_ASYNC_TIMEOUT_MS of dead spinner, so
+    // fail fast. Other failures (encrypted/IRM) still get the plain-text last resort.
+    if (htmlErr instanceof Error && htmlErr.message === 'BODY_TIMEOUT') {
+      throw new Error('BODY_UNREADABLE');
+    }
     try {
       const text = await getBodyAsync(item, Office.CoercionType.Text);
       bodyHtml = wrapPlainText(text);
       bodyFormat = 'text';
-    } catch (err) {
+    } catch {
       throw new Error('BODY_UNREADABLE');
     }
   }

@@ -58,6 +58,7 @@
   "error.noItem": "Geen e-mail geselecteerd. Open of selecteer een bericht om door te gaan.",
   "error.bodyEmpty": "Deze e-mail heeft geen leesbare inhoud.",
   "error.bodyUnreadable": "Kon de inhoud van de e-mail niet lezen. Het bericht is mogelijk versleuteld (IRM/S/MIME), nog aan het laden of anderszins ontoegankelijk.",
+  "error.officeInit": "Kan geen verbinding maken met Outlook. De invoegtoepassing is niet volledig geladen. Sluit het taakvenster en open het opnieuw, of start Outlook opnieuw op en probeer het nogmaals.",
   "error.renderFailed": "Weergave mislukt. Probeer een kleinere breedte of schaal.",
   "error.tooManyImages": "Deze e-mail bevat te veel inline afbeeldingen om betrouwbaar weer te geven.",
   "error.clipboardUnavailable": "Klembord niet beschikbaar in deze Outlook-omgeving. Sla de afbeelding op en kopieer handmatig.",

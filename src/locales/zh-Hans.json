@@ -58,6 +58,7 @@
   "error.noItem": "未选择邮件。请打开或选择一条消息继续。",
   "error.bodyEmpty": "此邮件没有可读内容。",
   "error.bodyUnreadable": "无法读取邮件正文。该邮件可能已加密 (IRM/S/MIME)、仍在加载或无法访问。",
+  "error.officeInit": "无法连接到 Outlook。加载项未能完成加载。请关闭并重新打开任务窗格，或重启 Outlook 后重试。",
   "error.renderFailed": "渲染失败。请尝试较小的宽度或缩放。",
   "error.tooManyImages": "此邮件包含的内联图像过多，无法可靠渲染。",
   "error.clipboardUnavailable": "此 Outlook 环境中剪贴板不可用。请保存图像并手动复制。",

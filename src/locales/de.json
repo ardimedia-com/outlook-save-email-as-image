@@ -55,6 +55,7 @@
   "error.noItem": "Keine E-Mail ausgewählt. Öffne oder selektiere eine Nachricht, um fortzufahren.",
   "error.bodyEmpty": "Diese E-Mail enthält keinen lesbaren Inhalt.",
   "error.bodyUnreadable": "E-Mail-Inhalt konnte nicht gelesen werden. Die Nachricht ist möglicherweise verschlüsselt (IRM/S/MIME), wird noch geladen oder ist anderweitig nicht zugänglich.",
+  "error.officeInit": "Verbindung zu Outlook nicht möglich. Das Add-in konnte nicht vollständig geladen werden. Schliessen Sie den Aufgabenbereich und öffnen Sie ihn erneut, oder starten Sie Outlook neu.",
   "error.renderFailed": "Rendern fehlgeschlagen. Versuche eine kleinere Breite oder Skalierung.",
   "error.tooManyImages": "Diese E-Mail enthält zu viele Inline-Bilder, um zuverlässig gerendert zu werden.",
   "error.clipboardUnavailable": "Zwischenablage in dieser Outlook-Umgebung nicht verfügbar. Bitte Bild speichern und manuell kopieren.",

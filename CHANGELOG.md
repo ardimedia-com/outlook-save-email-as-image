@@ -113,6 +113,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   stall. Email body read, EWS sent-time lookup, and inline-attachment fetch now use timeout
   guards and fail gracefully, allowing the error/retry state to appear instead of a permanent
   spinner.
+- Top-level load watchdog guarantees the spinner can never hang forever. The per-call guards
+  only run once `loadEmail()` is invoked (after `Office.onReady`); if onReady never fires
+  (office.js blocked, CSP, or an Outlook-classic WebView quirk) the spinner used to stay up
+  indefinitely. A 20 s backstop now surfaces a distinct, diagnostic error — `OFFICE_INIT_TIMEOUT`
+  (onReady never fired) vs `LOAD_TIMEOUT` (onReady fired but the load stalled) — and the new
+  `error.officeInit` message is translated in all 11 locales.
+- Body read fails fast on timeout: a timed-out HTML read no longer triggers a second
+  full-timeout plain-text read, halving the worst-case wait before the error appears (≈12 s
+  instead of ≈24 s) when the host is unresponsive.
 
 ## [0.1.0-alpha.1] - 2026-05-28
 

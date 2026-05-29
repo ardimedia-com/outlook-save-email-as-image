@@ -58,6 +58,7 @@
   "error.noItem": "No hay correo seleccionado. Abre o selecciona un mensaje para continuar.",
   "error.bodyEmpty": "Este correo no tiene contenido legible.",
   "error.bodyUnreadable": "No se pudo leer el contenido del correo. El mensaje puede estar cifrado (IRM/S/MIME), aún cargándose o de otro modo inaccesible.",
+  "error.officeInit": "No se pudo conectar con Outlook. El complemento no terminó de cargarse. Cierre y vuelva a abrir el panel de tareas, o reinicie Outlook e inténtelo de nuevo.",
   "error.renderFailed": "Error al renderizar. Prueba con una anchura o escala menor.",
   "error.tooManyImages": "Este correo contiene demasiadas imágenes integradas para renderizarlo de forma fiable.",
   "error.clipboardUnavailable": "El portapapeles no está disponible en este entorno de Outlook. Guarda la imagen y cópiala manualmente.",

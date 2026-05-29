@@ -58,6 +58,7 @@
   "error.noItem": "Brak wybranej wiadomości. Otwórz lub zaznacz wiadomość, aby kontynuować.",
   "error.bodyEmpty": "Ta wiadomość nie zawiera czytelnej treści.",
   "error.bodyUnreadable": "Nie można odczytać treści wiadomości. Może być zaszyfrowana (IRM/S/MIME), wciąż się ładować lub być w inny sposób niedostępna.",
+  "error.officeInit": "Nie można połączyć się z programem Outlook. Dodatek nie został w pełni załadowany. Zamknij i otwórz ponownie okienko zadań lub uruchom ponownie program Outlook i spróbuj jeszcze raz.",
   "error.renderFailed": "Renderowanie nie powiodło się. Spróbuj mniejszej szerokości lub skali.",
   "error.tooManyImages": "Ta wiadomość zawiera zbyt wiele obrazów wbudowanych, aby renderować ją niezawodnie.",
   "error.clipboardUnavailable": "Schowek niedostępny w tym środowisku Outlooka. Zapisz obraz i skopiuj ręcznie.",
