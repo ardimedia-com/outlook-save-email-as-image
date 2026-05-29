@@ -243,7 +243,16 @@ function buildContainer(opts: RenderOptions, bg: 'light' | 'dark'): HTMLDivEleme
   container.style.position = 'absolute';
   container.style.left = '-99999px';
   container.style.top = '0';
-  container.style.width = `${opts.width}px`;
+  if (opts.autoCrop) {
+    // Shrink to the content's natural width (capped at the requested width) so an email
+    // narrower than the canvas leaves no coloured side bands, and the full-width forwarding
+    // header/rule collapse to the same width as the content. Flowing/plain-text content
+    // still wraps at the cap, so this is a no-op for genuinely full-width content.
+    container.style.width = 'max-content';
+    container.style.maxWidth = `${opts.width}px`;
+  } else {
+    container.style.width = `${opts.width}px`;
+  }
   container.style.padding = '24px';
   container.style.boxSizing = 'border-box';
   container.style.background = BG_COLORS[bg];
@@ -269,6 +278,9 @@ export async function renderToCanvas(opts: RenderOptions): Promise<RenderResult>
     await new Promise((r) => requestAnimationFrame(() => r(null)));
 
     const finalHeight = container.scrollHeight;
+    // Measure the actual laid-out width: with autoCrop the container shrinks to content,
+    // so this is the email's natural width rather than the requested canvas width.
+    const finalWidth = Math.ceil(container.getBoundingClientRect().width);
 
     const canvas = await html2canvas(container, {
       backgroundColor: BG_COLORS[bg],
@@ -280,8 +292,8 @@ export async function renderToCanvas(opts: RenderOptions): Promise<RenderResult>
       allowTaint: false,
       imageTimeout: opts.loadExternalImages ? 15000 : 0,
       logging: false,
-      windowWidth: opts.width,
-      width: opts.width,
+      windowWidth: finalWidth,
+      width: finalWidth,
       height: finalHeight,
       windowHeight: finalHeight,
     });
