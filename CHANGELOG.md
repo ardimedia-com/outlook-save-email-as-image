@@ -107,6 +107,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App background is now white in light mode (was slate-50); dark mode is unchanged.
 - Footer is now two lines: the Office Store and GitHub commands sit on top as buttons, with the
   app name, version and Privacy link on the bottom line.
+- Responsive layout is now driven by the pane width via a CSS container query instead of a JS
+  viewport media query: a single adaptive DOM switches between stacked and two-column based on
+  the task pane's own width, removing the `useMediaQuery` hook and its resize re-renders.
+- Manifest `DisplayName` (the task pane title) shortened from "Save Email as Image" to
+  "Email as Image". Takes effect after the updated manifest is re-uploaded to the M365 Admin
+  Center; locale overrides still carry the longer translated form.
 - Render pipeline order is now sanitize → CID-resolve → render (data URLs from trusted
   attachments are injected post-sanitization, avoiding any URI-scheme stripping).
 

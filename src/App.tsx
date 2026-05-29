@@ -10,7 +10,6 @@ import { Toast, type ToastData } from './components/Toast';
 
 import { useTheme } from './hooks/useTheme';
 import { useDebouncedValue } from './hooks/useDebouncedValue';
-import { useMediaQuery } from './hooks/useMediaQuery';
 
 import { createI18n, detectLocale, resolveLocale, type SupportedLocale } from './lib/i18n';
 import {
@@ -46,9 +45,6 @@ function formatBytes(n: number): string {
   return `${(n / (1024 * 1024)).toFixed(2)} MB`;
 }
 
-// Two-column layout kicks in at ~half a typical desktop width.
-const WIDE_QUERY = '(min-width: 760px)';
-
 // Hard ceiling on the initial load. The per-call timeouts in officeItemReader only
 // run once loadEmail() is invoked — i.e. after Office.onReady fires. If onReady never
 // fires (office.js blocked, CSP, or an Outlook-classic WebView quirk) loadEmail() is
@@ -57,7 +53,6 @@ const OFFICE_LOAD_WATCHDOG_MS = 20000;
 
 export function App() {
   const { theme, toggle: toggleTheme } = useTheme();
-  const isWide = useMediaQuery(WIDE_QUERY);
 
   // Resizable settings height in single-column (narrow) mode.
   const [settingsPx, setSettingsPx] = useState(260);
@@ -463,51 +458,44 @@ export function App() {
 
   return (
     <Shell>
-      {isWide ? (
-        // Two columns: settings left (fixed width), preview right.
-        <main className="flex min-h-0 flex-1 flex-row">
-          <section className="flex w-[380px] shrink-0 flex-col overflow-y-auto border-r border-slate-200/70 dark:border-slate-800/60">
-            {settingsBody}
-          </section>
-          {previewSection}
-        </main>
-      ) : (
-        // Single column: preview on top, draggable divider, settings below.
-        <main className="flex min-h-0 flex-1 flex-col">
-          {previewSection}
-          <div
-            role="separator"
-            aria-orientation="horizontal"
-            aria-label={i18n.t('section.settings')}
-            aria-valuenow={Math.round(settingsPx)}
-            aria-valuemin={140}
-            aria-valuemax={Math.round(window.innerHeight * 0.7)}
-            tabIndex={0}
-            onPointerDown={onDividerPointerDown}
-            onPointerMove={onDividerPointerMove}
-            onPointerUp={onDividerPointerUp}
-            onKeyDown={(e) => {
-              if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                setSettingsPx((h) => Math.min(window.innerHeight * 0.7, h + 24));
-              } else if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                setSettingsPx((h) => Math.max(140, h - 24));
-              }
-            }}
-            className="group flex h-2.5 shrink-0 cursor-row-resize items-center justify-center border-t border-slate-200/70 bg-slate-100/70 transition-colors hover:bg-brand-100 focus-visible:bg-brand-100 focus-visible:outline-none dark:border-slate-800/60 dark:bg-slate-900/50 dark:hover:bg-brand-900/40 dark:focus-visible:bg-brand-900/40"
-            title="Drag to resize"
-          >
-            <span className="h-1 w-10 rounded-full bg-slate-300 transition-colors group-hover:bg-brand-400 dark:bg-slate-600" />
-          </div>
-          <section
-            className="flex shrink-0 flex-col overflow-y-auto"
-            style={{ height: settingsPx }}
-          >
-            {settingsBody}
-          </section>
-        </main>
-      )}
+      {/* Single adaptive layout: stacked by default, two columns when the pane itself
+          (not the viewport) is wide enough — driven by a CSS container query, so there is
+          no JS resize listener or re-render. The drag divider only applies while stacked;
+          it sets --settings-h, which the wide layout ignores. */}
+      <main
+        className="app-layout flex min-h-0 flex-1"
+        style={{ '--settings-h': `${settingsPx}px` } as React.CSSProperties}
+      >
+        {previewSection}
+        <div
+          role="separator"
+          aria-orientation="horizontal"
+          aria-label={i18n.t('section.settings')}
+          aria-valuenow={Math.round(settingsPx)}
+          aria-valuemin={140}
+          aria-valuemax={Math.round(window.innerHeight * 0.7)}
+          tabIndex={0}
+          onPointerDown={onDividerPointerDown}
+          onPointerMove={onDividerPointerMove}
+          onPointerUp={onDividerPointerUp}
+          onKeyDown={(e) => {
+            if (e.key === 'ArrowUp') {
+              e.preventDefault();
+              setSettingsPx((h) => Math.min(window.innerHeight * 0.7, h + 24));
+            } else if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              setSettingsPx((h) => Math.max(140, h - 24));
+            }
+          }}
+          className="app-divider group flex h-2.5 shrink-0 cursor-row-resize items-center justify-center border-t border-slate-200/70 bg-slate-100/70 transition-colors hover:bg-brand-100 focus-visible:bg-brand-100 focus-visible:outline-none dark:border-slate-800/60 dark:bg-slate-900/50 dark:hover:bg-brand-900/40 dark:focus-visible:bg-brand-900/40"
+          title="Drag to resize"
+        >
+          <span className="h-1 w-10 rounded-full bg-slate-300 transition-colors group-hover:bg-brand-400 dark:bg-slate-600" />
+        </div>
+        <section className="app-settings flex shrink-0 flex-col overflow-y-auto">
+          {settingsBody}
+        </section>
+      </main>
 
       <ActionBar
         i18n={i18n}
@@ -531,7 +519,7 @@ export function App() {
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-full min-h-0 flex-col bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <div className="app-shell flex h-full min-h-0 flex-col bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       {children}
     </div>
   );

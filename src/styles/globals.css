@@ -113,6 +113,38 @@
     linear-gradient(-45deg, transparent 75%, theme('colors.slate.800') 75%);
 }
 
+/* Adaptive layout driven by the pane width (container query), not the viewport.
+   Stacked by default (preview, drag divider, settings); two columns when the pane is
+   wide enough. The container is .app-shell so .app-layout itself can switch direction. */
+.app-shell {
+  container-type: inline-size;
+}
+.app-layout {
+  flex-direction: column;
+}
+.app-settings {
+  height: var(--settings-h);
+}
+
+@container (min-width: 760px) {
+  .app-layout {
+    flex-direction: row;
+  }
+  .app-divider {
+    display: none;
+  }
+  .app-settings {
+    order: -1;
+    width: 380px;
+    height: auto;
+    border-top: 0;
+    border-right: 1px solid theme('colors.slate.200');
+  }
+  .dark .app-settings {
+    border-right-color: theme('colors.slate.800');
+  }
+}
+
 /* Honor reduced-motion: neutralize spinner/fade/slide/shimmer for users who ask for it. */
 @media (prefers-reduced-motion: reduce) {
   *,
