@@ -43,7 +43,7 @@
     "@types/office-js": "^1.0.500",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
-    "@vitejs/plugin-react": "^4.7.0",
+    "@vitejs/plugin-react": "^6.0.2",
     "office-addin-debugging": "^6.0.0",
     "office-addin-dev-certs": "^2.0.0",
     "office-addin-manifest": "^2.0.0",
@@ -51,6 +51,6 @@
     "prettier": "^3.4.2",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.7.2",
-    "vite": "^6.4.0"
+    "vite": "^8.0.16"
   }
 }
