@@ -47,7 +47,7 @@
     "office-addin-debugging": "^6.0.0",
     "office-addin-dev-certs": "^2.0.0",
     "office-addin-manifest": "^2.0.0",
-    "postcss": "^8.4.49",
+    "postcss": "^8.5.25",
     "prettier": "^3.4.2",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.7.2",
