@@ -151,6 +151,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Rendering in dark mode no longer fails with "unsupported color function oklch".** The
+  previous fix only covered the border-color shim; html2canvas additionally reads the computed
+  `background-color` of `<html>` and `<body>` on every render, regardless of which element is
+  being captured. The task pane's body carries Tailwind's `dark:bg-slate-950`, which computes to
+  `oklch(...)`, so every export failed while dark mode was active. The export path now converts
+  CSS Color 4 values (`oklch()`, `oklab()`, and the `color(srgb ...)` that Chromium produces for
+  Tailwind's `/opacity` modifiers) to `rgb()`/`rgba()` before capture — on the two root elements
+  and across the offscreen render container — so modern colors from the add-in's own stylesheet
+  or from the email's inline styles can no longer abort a render.
 - **Preview rendering no longer fails after the Tailwind v4 migration.** html2canvas cannot
   parse `oklch()` colors, and v4's border-color compatibility shim resolved to an oklch value
   on every element — including the rendered email — so html2canvas threw "unsupported color

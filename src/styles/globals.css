@@ -67,7 +67,11 @@
   and html2canvas (used to render the email preview) cannot parse oklch colors. This rule
   stamps a default border-color onto every rendered email element, so an oklch value here makes
   html2canvas throw "unsupported color function oklch". Hex gray-200 is visually identical and
-  keeps the render path oklch-free.
+  keeps the render path oklch-free at the source.
+
+  The render path is no longer solely dependent on this: imageExporter converts any remaining
+  CSS Color 4 value to rgb() before capture (see lib/cssColorCompat.ts). Keeping the hex here
+  still avoids that conversion work on every element of every render.
 */
 @layer base {
   *,
