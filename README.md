@@ -118,7 +118,7 @@ outlookHeader     → builds localized "Von / Gesendet / An / Cc / Betreff" head
                     (11 locales, Intl.DateTimeFormat for dates)
    ↓
 imageExporter     → renders sanitized HTML + header into an offscreen <div>
-                  → html2canvas → PNG/JPG blob
+                  → html2canvas-pro → PNG/JPG blob
    ↓
 Live preview      → Blob URL in <img>, debounced re-render on setting changes
    ↓
@@ -147,7 +147,7 @@ Save / Clipboard  → download via <a download> OR navigator.clipboard.write
 │   │   ├── sanitize.ts          # DOMPurify + image policy
 │   │   ├── emailRenderModel.ts  # type detection + width suggestion
 │   │   ├── outlookHeader.ts     # localized header HTML
-│   │   ├── imageExporter.ts     # html2canvas + clipboard
+│   │   ├── imageExporter.ts     # html2canvas-pro + clipboard
 │   │   ├── i18n.ts              # locale resolver + string lookup
 │   │   ├── filename.ts          # filename sanitizer
 │   │   └── cn.ts                # class merger
@@ -170,7 +170,7 @@ Save / Clipboard  → download via <a download> OR navigator.clipboard.write
   could, but see above. Ribbon button + user-assignable keyboard shortcut covers the
   speed need.
 - **Offscreen `<div>` rendering, not sandboxed iframe** — DOMPurify strips scripts and
-  event handlers before render; html2canvas works most reliably on a normal DOM node.
+  event handlers before render; html2canvas-pro works most reliably on a normal DOM node.
 - **EWS for sent time** — `Office.context.mailbox.item.dateTimeCreated` is the *receive*
   time, not the send time. We query EWS `DateTimeSent` via `makeEwsRequestAsync`. When
   EWS is unavailable, the header shows the receive time with an *(Empfangen / Received)*
@@ -200,7 +200,7 @@ native speakers are especially appreciated.
 
 ## Acknowledgments
 
-- [html2canvas](https://html2canvas.hertzen.com/)
+- [html2canvas-pro](https://github.com/yorickshan/html2canvas-pro)
 - [DOMPurify](https://github.com/cure53/DOMPurify)
 - [Radix UI](https://www.radix-ui.com/)
 - [Tailwind CSS](https://tailwindcss.com/)

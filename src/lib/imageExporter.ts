@@ -1,6 +1,4 @@
-import html2canvas from 'html2canvas';
-
-import { hasUnsupportedColorFunction, toLegacyColorSyntax } from './cssColorCompat';
+import html2canvas from 'html2canvas-pro';
 
 export type Background = 'light' | 'dark' | 'auto';
 
@@ -239,100 +237,6 @@ export function sliceCanvas(
   return pages.length > 0 ? pages : [canvas];
 }
 
-/**
- * Every CSS property whose computed value html2canvas 1.4.1 runs through its colour parser.
- * A modern colour function in any of them aborts the whole render.
- */
-const COLOR_BEARING_PROPERTIES = [
-  'color',
-  'background-color',
-  'background-image',
-  'border-top-color',
-  'border-right-color',
-  'border-bottom-color',
-  'border-left-color',
-  'text-decoration-color',
-  '-webkit-text-stroke-color',
-  'box-shadow',
-  'text-shadow',
-] as const;
-
-/** What to use when a value cannot be converted at all — never a colour function. */
-const COLOR_FALLBACKS: Record<string, string> = {
-  'background-color': 'transparent',
-  'background-image': 'none',
-  'border-top-color': 'transparent',
-  'border-right-color': 'transparent',
-  'border-bottom-color': 'transparent',
-  'border-left-color': 'transparent',
-  'text-decoration-color': 'currentColor',
-  '-webkit-text-stroke-color': 'currentColor',
-  'box-shadow': 'none',
-  'text-shadow': 'none',
-};
-
-/**
- * Rewrite modern CSS Color 4 values (oklch, oklab, color-mix results) inside the offscreen
- * render container as rgb()/rgba(), because html2canvas 1.4.1 throws on them.
- *
- * Two sources feed such values into the container: the add-in's own Tailwind v4 stylesheet
- * (its palette is oklch, its /opacity modifiers compile to color-mix) applies to any element
- * whose class or default styling it matches, and the email HTML itself may carry them inline.
- * The overrides are written as inline styles on the throwaway container, so nothing outlives
- * the render.
- */
-function neutralizeModernColors(root: HTMLElement, fallbackTextColor: string): void {
-  const elements: Element[] = [root, ...Array.from(root.querySelectorAll('*'))];
-
-  for (const element of elements) {
-    if (!(element instanceof HTMLElement) && !(element instanceof SVGElement)) continue;
-
-    const computed = getComputedStyle(element);
-    for (const property of COLOR_BEARING_PROPERTIES) {
-      const value = computed.getPropertyValue(property);
-      if (!value || !hasUnsupportedColorFunction(value)) continue;
-
-      const converted =
-        toLegacyColorSyntax(value) ??
-        (property === 'color' ? fallbackTextColor : COLOR_FALLBACKS[property]);
-      element.style.setProperty(property, converted, 'important');
-    }
-  }
-}
-
-/**
- * html2canvas reads getComputedStyle(...).backgroundColor of BOTH the document element and the
- * body on every render, no matter which element is being captured (parseBackgroundColor). The
- * taskpane's body carries Tailwind's `dark:bg-slate-950`, whose computed value is oklch — which
- * is why the export failed in dark mode before the capture even started.
- *
- * Temporarily pin those two to the equivalent rgb() value (visually identical, so no flicker)
- * and restore the previous inline value afterwards.
- */
-function neutralizeRootBackgrounds(): () => void {
-  const restores: Array<() => void> = [];
-
-  for (const element of [document.documentElement, document.body]) {
-    if (!element) continue;
-    const value = getComputedStyle(element).backgroundColor;
-    if (!value || !hasUnsupportedColorFunction(value)) continue;
-
-    const previous = element.style.getPropertyValue('background-color');
-    const previousPriority = element.style.getPropertyPriority('background-color');
-    element.style.setProperty(
-      'background-color',
-      toLegacyColorSyntax(value) ?? 'transparent',
-      'important'
-    );
-    restores.push(() => {
-      element.style.removeProperty('background-color');
-      if (previous) element.style.setProperty('background-color', previous, previousPriority);
-    });
-  }
-
-  return () => restores.forEach((restore) => restore());
-}
-
 function buildContainer(opts: RenderOptions, bg: 'light' | 'dark'): HTMLDivElement {
   const container = document.createElement('div');
   const isDark = bg === 'dark';
@@ -370,8 +274,6 @@ export async function renderToCanvas(opts: RenderOptions): Promise<RenderResult>
     await waitForFonts();
     // Wait for all images (CID data URLs + external) so the layout height is final.
     await waitForImages(container, opts.loadExternalImages ? 15000 : 3000);
-    // Replace any CSS Color 4 value html2canvas cannot parse (oklch & friends) with rgb().
-    neutralizeModernColors(container, bg === 'dark' ? '#e2e8f0' : '#0f172a');
     // One more frame so the browser flushes the final layout.
     await new Promise((r) => requestAnimationFrame(() => r(null)));
 
@@ -380,27 +282,21 @@ export async function renderToCanvas(opts: RenderOptions): Promise<RenderResult>
     // so this is the email's natural width rather than the requested canvas width.
     const finalWidth = Math.ceil(container.getBoundingClientRect().width);
 
-    const restoreRootBackgrounds = neutralizeRootBackgrounds();
-    let canvas: HTMLCanvasElement;
-    try {
-      canvas = await html2canvas(container, {
-        backgroundColor: BG_COLORS[bg],
-        scale: opts.scale,
-        // CID images are inlined as data URLs (always safe). For external images,
-        // useCORS lets html2canvas load CORS-enabled hosts; tainting stays off so
-        // toBlob() never throws a SecurityError.
-        useCORS: opts.loadExternalImages,
-        allowTaint: false,
-        imageTimeout: opts.loadExternalImages ? 15000 : 0,
-        logging: false,
-        windowWidth: finalWidth,
-        width: finalWidth,
-        height: finalHeight,
-        windowHeight: finalHeight,
-      });
-    } finally {
-      restoreRootBackgrounds();
-    }
+    const canvas = await html2canvas(container, {
+      backgroundColor: BG_COLORS[bg],
+      scale: opts.scale,
+      // CID images are inlined as data URLs (always safe). For external images,
+      // useCORS lets html2canvas load CORS-enabled hosts; tainting stays off so
+      // toBlob() never throws a SecurityError.
+      useCORS: opts.loadExternalImages,
+      allowTaint: false,
+      imageTimeout: opts.loadExternalImages ? 15000 : 0,
+      logging: false,
+      windowWidth: finalWidth,
+      width: finalWidth,
+      height: finalHeight,
+      windowHeight: finalHeight,
+    });
 
     const finalCanvas = opts.autoCrop
       ? autoCropCanvas(canvas, bg, opts.scale)

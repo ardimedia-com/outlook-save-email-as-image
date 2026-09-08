@@ -53,7 +53,7 @@ export default defineConfig({
         // chunk stays small and a code change doesn't bust the vendor cache.
         manualChunks(id) {
           if (!id.includes('node_modules')) return undefined;
-          if (id.includes('html2canvas')) return 'html2canvas';
+          if (id.includes('html2canvas-pro')) return 'html2canvas-pro';
           if (id.includes('dompurify')) return 'sanitize';
           return 'vendor';
         },

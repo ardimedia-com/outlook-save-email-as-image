@@ -87,6 +87,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Renderer switched from `html2canvas` to `html2canvas-pro`.** The original has had no release
+  since January 2022 and understands only hex, `rgb()`, `rgba()`, `hsl()` and `hsla()` — every
+  modern CSS color aborts the whole render, which is what broke dark-mode exports. The
+  maintained fork is API-compatible (same default export, same options, no call-site change) and
+  parses `oklch()`, `oklab()`, `lab()`, `lch()` and `color()` natively, so the color workarounds
+  are gone rather than papered over. It also brings `object-fit`, `clip-path`, `mix-blend-mode`
+  and `background-clip: text` support, which matter for real-world email markup. Costs ~17 kB
+  gzip in the lazily-loaded renderer chunk.
+- **DOMPurify updated to 3.4.15**, clearing all five runtime security advisories reported against
+  the shipped bundle (`npm audit --omit=dev` is now clean). Also patch-bumped the dev toolchain
+  (vite 6.4.3, postcss 8.5.28) for two high-severity build-time advisories.
 - Default background is now **Light** (was Auto).
 - Image export waits for all images (CID + external) to finish loading before measuring
   the canvas height, fixing cut-off output when external images were loaded late.
@@ -152,19 +163,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **Rendering in dark mode no longer fails with "unsupported color function oklch".** The
-  previous fix only covered the border-color shim; html2canvas additionally reads the computed
+  earlier fix only covered the border-color shim; html2canvas additionally reads the computed
   `background-color` of `<html>` and `<body>` on every render, regardless of which element is
   being captured. The task pane's body carries Tailwind's `dark:bg-slate-950`, which computes to
-  `oklch(...)`, so every export failed while dark mode was active. The export path now converts
-  CSS Color 4 values (`oklch()`, `oklab()`, and the `color(srgb ...)` that Chromium produces for
-  Tailwind's `/opacity` modifiers) to `rgb()`/`rgba()` before capture — on the two root elements
-  and across the offscreen render container — so modern colors from the add-in's own stylesheet
-  or from the email's inline styles can no longer abort a render.
-- **Preview rendering no longer fails after the Tailwind v4 migration.** html2canvas cannot
-  parse `oklch()` colors, and v4's border-color compatibility shim resolved to an oklch value
-  on every element — including the rendered email — so html2canvas threw "unsupported color
-  function oklch". The shim now uses plain hex gray-200, keeping the render path oklch-free
-  (the container's own styles are already hex and html2canvas gets an explicit hex background).
+  `oklch(...)`, so every export failed while dark mode was active — light mode worked only
+  because v4's `bg-white` is still a plain hex. Fixed at the root by moving to html2canvas-pro
+  (see Changed), which parses these colors natively.
+- **Preview rendering no longer fails after the Tailwind v4 migration.** v4's border-color
+  compatibility shim resolved to an oklch value on every element — including the rendered email —
+  which the then-current html2canvas could not parse. Superseded by the html2canvas-pro move; the
+  shim uses the `--color-gray-200` token again.
 - **Trim empty margins now removes coloured side bands too.** With the setting on, the email is
   rendered shrink-to-fit (its natural content width, capped at the chosen width) instead of at a
   fixed wider canvas. Emails narrower than the canvas (e.g. a 600px marketing layout on a grey

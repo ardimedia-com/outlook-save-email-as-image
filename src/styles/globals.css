@@ -63,15 +63,9 @@
   The default border color changed to `currentcolor` in Tailwind CSS v4, so this restores
   the v3 default (gray-200) on every element.
 
-  NOTE: the value is a plain hex on purpose, NOT var(--color-gray-200). v4's palette is oklch,
-  and html2canvas (used to render the email preview) cannot parse oklch colors. This rule
-  stamps a default border-color onto every rendered email element, so an oklch value here makes
-  html2canvas throw "unsupported color function oklch". Hex gray-200 is visually identical and
-  keeps the render path oklch-free at the source.
-
-  The render path is no longer solely dependent on this: imageExporter converts any remaining
-  CSS Color 4 value to rgb() before capture (see lib/cssColorCompat.ts). Keeping the hex here
-  still avoids that conversion work on every element of every render.
+  This used to be pinned to a plain hex because html2canvas 1.4.1 could not parse v4's oklch
+  palette and threw on every render. The renderer is html2canvas-pro now, which parses oklch
+  natively, so the token is used again.
 */
 @layer base {
   *,
@@ -79,7 +73,7 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: #e5e7eb;
+    border-color: var(--color-gray-200);
   }
 }
 
