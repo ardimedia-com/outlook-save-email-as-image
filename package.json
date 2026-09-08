@@ -12,6 +12,7 @@
     "preview": "vite preview --host localhost --port 3000",
     "make-manifest": "node scripts/make-prod-manifest.mjs",
     "lint": "eslint src --ext ts,tsx",
+    "smoke": "node scripts/smoke-render.mjs",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "validate-manifest": "office-addin-manifest validate manifest.xml",
     "sideload:desktop": "office-addin-debugging start manifest.xml desktop --app outlook --no-debug",

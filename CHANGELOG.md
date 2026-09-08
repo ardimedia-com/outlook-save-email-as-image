@@ -100,6 +100,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (vite 6.4.3, postcss 8.5.28) for two high-severity build-time advisories.
 - Removed the `@types/dompurify` dev dependency — it is a deprecated stub, since DOMPurify has
   shipped its own type definitions since v3.
+- **Headless render smoke test** (`npm run smoke`) — builds `test/smoke/smoke.html` with the real
+  Vite/Tailwind pipeline, drives it in headless Chrome over the DevTools protocol, and renders
+  three representative emails (table layout with an inline image, an email carrying CSS Color 4
+  values, plain text) in both light and dark mode. The renderer is the app's only output and its
+  failure modes are invisible to `tsc` and the bundler — the oklch bug produced a green build and
+  a broken app. Verified to reproduce that exact failure when pointed back at html2canvas 1.4.1.
 - Default background is now **Light** (was Auto).
 - Image export waits for all images (CID + external) to finish loading before measuring
   the canvas height, fixing cut-off output when external images were loaded late.

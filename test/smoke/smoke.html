@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>render smoke test</title>
+  </head>
+  <!--
+    The body classes are copied verbatim from src/taskpane.html on purpose. `dark:bg-slate-950`
+    is what broke every dark-mode export: html2canvas reads the computed background-color of
+    <html> and <body> on every render, and Tailwind v4 resolves that class to oklch(). Change
+    these classes and the test stops covering the regression it exists for.
+  -->
+  <body class="bg-white text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100">
+    <pre id="out">running</pre>
+    <script type="module" src="./smoke.ts"></script>
+  </body>
+</html>
