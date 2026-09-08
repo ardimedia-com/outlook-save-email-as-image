@@ -98,6 +98,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **DOMPurify updated to 3.4.15**, clearing all five runtime security advisories reported against
   the shipped bundle (`npm audit --omit=dev` is now clean). Also patch-bumped the dev toolchain
   (vite 6.4.3, postcss 8.5.28) for two high-severity build-time advisories.
+- Removed the `@types/dompurify` dev dependency — it is a deprecated stub, since DOMPurify has
+  shipped its own type definitions since v3.
 - Default background is now **Light** (was Auto).
 - Image export waits for all images (CID + external) to finish loading before measuring
   the canvas height, fixing cut-off output when external images were loaded late.
