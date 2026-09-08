@@ -15,6 +15,7 @@ import { renderToCanvas, canvasToBlob } from '../../src/lib/imageExporter';
 import { sanitizeEmailHtml } from '../../src/lib/sanitize';
 import { buildHeaderHtml, getHeaderFontStack } from '../../src/lib/outlookHeader';
 import type { EmailMeta } from '../../src/lib/officeItemReader';
+import { runMountCheck } from './mount';
 
 /** 1x1 transparent PNG, so the image path is exercised without a network fetch. */
 const PIXEL =
@@ -108,6 +109,8 @@ async function run(): Promise<void> {
       }
     }
   }
+
+  await runMountCheck(log);
 
   log('SMOKE DONE');
 }

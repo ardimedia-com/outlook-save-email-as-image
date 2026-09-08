@@ -154,6 +154,11 @@ async function main() {
     configFile: false,
     logLevel: 'warn',
     plugins: [react()],
+    // The harness imports real app components, so it needs the same alias and build-time
+    // defines the app build provides. configFile:false is deliberate -- reusing vite.config.ts
+    // would drag in the dev-cert https server and the production rollup inputs.
+    resolve: { alias: { '@': path.join(root, 'src') } },
+    define: { __APP_VERSION__: JSON.stringify('smoke') },
     build: {
       outDir,
       emptyOutDir: true,

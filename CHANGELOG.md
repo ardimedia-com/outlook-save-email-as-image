@@ -38,9 +38,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `role="alert"`/`aria-live="assertive"`; the resize divider is keyboard-operable
   (Tab-focus + Arrow keys, with `aria-valuenow/min/max`); preview image alt text is
   localized and page-aware.
-
-### Added (hosting & infra)
-
 - **Self-hosted Inter font** via `@fontsource-variable/inter` (bundled by Vite) — removed the
   Google Fonts CDN dependency. No third-party font request, better privacy, and it allows a
   stricter Content-Security-Policy.
@@ -57,15 +54,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   manifest artifacts), then a deployment job on the existing `APP-SVRWWW05` environment (VM
   resource) that cleans the IIS target and copies the static site. No agent pool or deployment
   group needed.
-
-### Security
-
-- All image processing is client-side; the hosting server serves only static, public files —
-  email content never reaches the server. Dependabot + secret scanning + push protection are
-  enabled on the repository.
-
-### Added
-
 - **Auto-crop.** Uniform background margins are now trimmed from the rendered image. The
   crop scans inward from each edge for the first non-background pixel (tolerance-based,
   sampled every 2nd pixel for speed) and crops to that bounding box plus 16 px padding.
@@ -84,9 +72,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Clipboard feedback toast** — success and failure are now surfaced (previously a failed
   copy was swallowed silently). Browser/iframe clipboard blocks report a clear,
   actionable message.
+- **CID inline-image resolution.** Embedded images (signature logos, inline photos) are
+  now fetched via Office.js `getAttachmentContentAsync`, converted to base64 data URLs and
+  injected into the rendered HTML after sanitization. CID-to-attachment matching uses
+  name matching with an extension-insensitive and positional fallback (`cidResolver.ts`).
+- **External-image loading via CORS.** When "External images → Loaded for this export" is
+  selected, html2canvas now runs with `useCORS: true` and a 15 s image timeout, so
+  CORS-enabled hosts render. Tainting stays disabled so PNG/JPG export never throws a
+  SecurityError. Hosts without CORS headers still fall back to placeholders (a proxy is a
+  later option).
+- **Headless render smoke test** (`npm run smoke`) — builds `test/smoke/smoke.html` with the real
+  Vite/Tailwind pipeline, drives it in headless Chrome over the DevTools protocol, and renders
+  three representative emails (table layout with an inline image, an email carrying CSS Color 4
+  values, plain text) in both light and dark mode. The renderer is the app's only output and its
+  failure modes are invisible to `tsc` and the bundler — the oklch bug produced a green build and
+  a broken app. Verified to reproduce that exact failure when pointed back at html2canvas 1.4.1.
 
 ### Changed
 
+- **Dependencies brought fully current.** React 19, Vite 8 (Rolldown) with `@vitejs/plugin-react` 6,
+  TypeScript 7, lucide-react 1, tailwind-merge 3 (v2 targeted Tailwind v3; the project is on v4),
+  the Radix UI set, Tailwind 4.3.3 and the office-addin toolchain. `npm outdated` is empty. Two
+  config consequences: TypeScript 7 removed `baseUrl`, so the `@/*` path mapping is relative now;
+  and lucide-react 1 removed all brand icons, so the footer's GitHub logo is an inlined mark.
+  Verified with `npm run smoke` — render output is byte-identical.
+- **Footer's GitHub icon is now an inlined SVG mark** rather than `lucide-react`'s `Github`, which
+  v1 removed for trademark reasons. Visually unchanged.
 - **Renderer switched from `html2canvas` to `html2canvas-pro`.** The original has had no release
   since January 2022 and understands only hex, `rgb()`, `rgba()`, `hsl()` and `hsla()` — every
   modern CSS color aborts the whole render, which is what broke dark-mode exports. The
@@ -100,33 +111,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (vite 6.4.3, postcss 8.5.28) for two high-severity build-time advisories.
 - Removed the `@types/dompurify` dev dependency — it is a deprecated stub, since DOMPurify has
   shipped its own type definitions since v3.
-- **Headless render smoke test** (`npm run smoke`) — builds `test/smoke/smoke.html` with the real
-  Vite/Tailwind pipeline, drives it in headless Chrome over the DevTools protocol, and renders
-  three representative emails (table layout with an inline image, an email carrying CSS Color 4
-  values, plain text) in both light and dark mode. The renderer is the app's only output and its
-  failure modes are invisible to `tsc` and the bundler — the oklch bug produced a green build and
-  a broken app. Verified to reproduce that exact failure when pointed back at html2canvas 1.4.1.
 - Default background is now **Light** (was Auto).
 - Image export waits for all images (CID + external) to finish loading before measuring
   the canvas height, fixing cut-off output when external images were loaded late.
 - The redundant in-app header was removed (Outlook already shows the add-in name in its
   taskpane chrome); the dark-mode toggle moved into the preview toolbar.
 - Footer uses a distinct background tint to separate it from the action bar.
-
-### Added (earlier in this cycle)
-
-- **CID inline-image resolution.** Embedded images (signature logos, inline photos) are
-  now fetched via Office.js `getAttachmentContentAsync`, converted to base64 data URLs and
-  injected into the rendered HTML after sanitization. CID-to-attachment matching uses
-  name matching with an extension-insensitive and positional fallback (`cidResolver.ts`).
-- **External-image loading via CORS.** When "External images → Loaded for this export" is
-  selected, html2canvas now runs with `useCORS: true` and a 15 s image timeout, so
-  CORS-enabled hosts render. Tainting stays disabled so PNG/JPG export never throws a
-  SecurityError. Hosts without CORS headers still fall back to placeholders (a proxy is a
-  later option).
-
-### Changed
-
 - Renamed the app to "Email as Image" everywhere it appears as a name: the task pane title
   (manifest `DisplayName` + all locale overrides), the ribbon button label (`TaskpaneButton.Label`
   "Save as Image" → "Email as Image" + all locale overrides), the footer tagline (all locales),
@@ -217,6 +207,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   of waiting out the watchdog. The detail line also reports any Content-Security-Policy
   violation or runtime error captured during the init wait, so a blocked host handshake names
   the offending directive/URL on screen.
+
+### Security
+
+- All image processing is client-side; the hosting server serves only static, public files —
+  email content never reaches the server. Dependabot + secret scanning + push protection are
+  enabled on the repository.
+- Dev-scope advisories reduced from 41 to 12 by bringing the toolchain current. The remainder sit
+  in `@microsoft/*` packages under `office-addin-debugging`/`office-addin-manifest` and have no
+  patched version — npm's only offered "fix" is a major **downgrade** of the sideload tooling,
+  which is deliberately refused. None of it ships: `npm audit --omit=dev` reports zero.
 
 ## [0.1.0-alpha.1] - 2026-05-28
 
