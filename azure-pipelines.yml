@@ -62,6 +62,10 @@ stages:
     condition: succeeded()
     jobs:
       - deployment: deployProd
+        # Start from an empty agent workspace: «download» only adds and overwrites, so files removed from
+        # the repo would survive in the agent's folder and come back on the server (amvs-azure-pipeline.md).
+        workspace:
+          clean: all
         displayName: Deploy static site to IIS
         environment:
           name: APP-SVRWWW05

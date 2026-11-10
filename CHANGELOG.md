@@ -160,6 +160,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Files removed from the repository now also leave the servers.** Every deployment job starts from an empty agent workspace (`workspace: clean: all`). `download` only adds and overwrites, so a file deleted from the repo stayed in the agent's folder and was copied to the server again with every deploy (found in bvd.li.web, where withdrawn PDFs stayed online).
 - **Rendering in dark mode no longer fails with "unsupported color function oklch".** The
   earlier fix only covered the border-color shim; html2canvas additionally reads the computed
   `background-color` of `<html>` and `<body>` on every render, regardless of which element is
